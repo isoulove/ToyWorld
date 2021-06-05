@@ -75,6 +75,7 @@ curl --request POST \
     "itemID": 1,
     "metadata": {}
   }'
+```
 
 - **POST /v1/market/sell** - Put a Toy Item up for sale.
 
