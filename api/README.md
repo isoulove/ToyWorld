@@ -89,6 +89,106 @@ curl --request POST \
   }'
 ```
 
+- **POST /v1/market/buy** - Buy a Toy Item up for market.
+
+```sh
+curl --request POST \
+  --url http://localhost:3000/v1/market/buy \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "account": "0xd1eaadd012fcd9f0",
+    "itemID": 0
+  }'
+```
+
+### Query API
+
+- **GET /v1/toycoin/balance/:account** - Get Toy Coin balance
+
+```sh
+curl --request Get \
+  --url http://localhost:3000/v1/toycoin/balance/0xd1eaadd012fcd9f0 
+
+resut >>
+{
+  "balance": "1000.00000000"
+}
+```
+
+- **GET /v1/toy-items/item/:address/:itemId** - Get Toy Item by id
+
+```sh
+curl --request Get \
+  --url http://localhost:3000/v1/toy-items/item/0xd1eaadd012fcd9f0/0 
+
+resut >>
+{
+  "item": {
+    "itemID": 0,
+    "typeID": 1,
+    "author": "0xd1eaadd012fcd9f0",
+    "metadata": "{\"ITEM_NAME\":\"TEST-UPD\",\"ipfs\":\"\"}"
+  }
+}
+```
+
+- **GET /v1/toy-items/metadata/:address/:itemId** - Get Toy Item's metadata by id
+
+```sh
+curl --request Get \
+  --url http://localhost:3000/v1/toy-items/metadata/0xd1eaadd012fcd9f0/0 
+
+resut >>
+{
+  "metadata": "{\"ITEM_NAME\":\"TEST-UPD\",\"ipfs\":\"\"}"
+}
+```
+
+- **GET /v1/toy-items/items/:account** - Get Toy Items by account
+
+```sh
+curl --request Get \
+  --url http://localhost:3000/v1/toy-items/items/0xd1eaadd012fcd9f0
+
+resut >>
+{
+  "items": [
+    {
+      "itemID": 0,
+      "typeID": 1,
+      "author": "0xd1eaadd012fcd9f0",
+      "metadata": "{\"ITEM_NAME\":\"TEST-UPD\",\"ipfs\":\"\"}"
+    },
+    {
+      "itemID": 1,
+      "typeID": 1,
+      "author": "0xd1eaadd012fcd9f0",
+      "metadata": "{\"ITEM_NAME\":\"TEST4\",\"ipfs\":\"\"}"
+    }
+  ]
+}
+```
+
+- **GET /v1/market/collection** - Get All Toy Items sell in market
+
+```sh
+curl --request Get \
+  --url http://localhost:3000/v1/market/collection/ 
+
+resut >>
+{
+  "items": [
+    {
+      "itemID": 1,
+      "typeID": 1,
+      "author": "0xd1eaadd012fcd9f0",
+      "metadata": "{\"ITEM_NAME\":\"TEST4\",\"ipfs\":\"\"}",
+      "price": "500.00000000"
+    }
+  ]
+}
+```
+
 # Toy Items API
 
 The Toy Items API is a RESTful API built with [express](https://expressjs.com/) that sends transactions to Flow using the [Flow JS SDK](https://github.com/onflow/flow-js-sdk/).

@@ -44,7 +44,7 @@ function initMarketRouter(marketService: MarketService): Router {
 
   // 读取交易市场的NFT集合-API
   router.get(
-    "/market/collection/:account",
+    "/market/collection",
     async (req: Request, res: Response) => {
       const items = await marketService.getItems();
       return res.send({

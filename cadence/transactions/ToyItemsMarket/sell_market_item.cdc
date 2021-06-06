@@ -18,6 +18,9 @@ transaction(itemID: UInt64, price: UFix64) {
 
         if !signer.getCapability<&ToyItems.Collection{ToyNonFungibleToken.Provider, ToyItems.ToyItemsCollectionPublic}>(ToyItemsCollectionProviderPrivatePath)!.check() {
             signer.link<&ToyItems.Collection{ToyNonFungibleToken.Provider, ToyItems.ToyItemsCollectionPublic}>(ToyItemsCollectionProviderPrivatePath, target: ToyItems.CollectionStoragePath)
+        }else{
+            signer.unlink(ToyItemsCollectionProviderPrivatePath)
+            signer.link<&ToyItems.Collection{ToyNonFungibleToken.Provider, ToyItems.ToyItemsCollectionPublic}>(ToyItemsCollectionProviderPrivatePath, target: ToyItems.CollectionStoragePath)
         }
 
         self.ToyItemsCollection = signer.getCapability<&ToyItems.Collection{ToyNonFungibleToken.Provider, ToyItems.ToyItemsCollectionPublic}>(ToyItemsCollectionProviderPrivatePath)!
