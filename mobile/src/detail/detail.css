@@ -1,0 +1,64 @@
+.detail-box {
+    width:100%;
+    min-height:329px;
+  }
+.title-intro{
+  font-size:16px;
+  line-height:21px;
+  font-weight:500;
+  color:#0F1011;
+}
+
+.title-desc {
+  font-size:14px;
+  line-height:21px;
+  font-weight:400;
+  color:#6C747B;
+  margin-top:8px;
+}
+.top-nav {
+  position: absolute;
+  height: 30px;
+   width: 30px;
+   top: 0;
+}
+.bottom-item {
+  position: fixed;
+  height: 83px;
+   width: 100%;
+   bottom: 0;
+   background-color:#FFFFFF;
+   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.15) ;
+}
+
+.buy-now{
+  height: 46px;
+  width: 260px;
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 13px;
+  overflow: hidden;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 46px;
+  color: #fff;
+}
+
+.am-modal-title {
+  color: #1a1a1a;
+  font-weight: 500;
+}
+
+.checkBtn {
+  border-radius:16px;
+  text-align:center;
+  width:96px;
+  height:32px;
+  line-height:32px;
+  color:#fff;
+  font-size:14px;
+  background-color:rgba(0, 0, 0, 0.15);
+}
+.mt10 {
+  margin-top: 10px;
+}

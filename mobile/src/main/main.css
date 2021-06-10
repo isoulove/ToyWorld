@@ -1,0 +1,24 @@
+#tab-bar.demo {
+    display: flex;
+    flex-direction: column;
+  }
+  #tab-bar .demoName {
+    height: 40px;
+  }
+  #tab-bar .demo-preview-item .am-tab-bar {
+    background-color: white;
+  }
+  .am-tab-bar-bar{
+    height: 83px;
+  }
+  .am-tab-bar-bar .am-tab-bar-tab-title{
+    margin-top: 10px;
+  }
+  
+  .am-tab-bar-tab-title:nth-of-type(3){
+    margin-top: 20px;
+  }
+
+  .bkc-fff{
+      background-color: #fff;
+  }

@@ -1,0 +1,52 @@
+.common-title-style{
+  font-size: 18px;
+  line-height: 21px;
+}
+.selected-title-style{
+  font-size: 22px;
+  font-weight: 600;
+}
+.search-div >.am-list-item{
+  width: 98%;
+  padding-left: 0;
+  height: 35px;
+  min-height: 35px;
+  margin-left: 16px;
+  border: none;
+}
+.slider-frame{
+  border-radius: 14px;
+}
+
+.am-icon-xxs {
+  width: 15px;
+  height: 15px;
+}
+.search-div .am-button-icon {
+  margin-right: 0.2em;
+}
+.good-box {
+  width:100%;
+  margin-top: 15px;
+  border-radius:10px;
+  height:329px;
+  overflow:hidden;
+  box-shadow: darkgrey 6px 6px 8px 5px;
+}
+.avator-box {
+  width:32px;
+  height:32px;
+  border-radius:16px;
+  overflow:hidden;
+}
+.buy-button {
+  height:30px;
+  line-height:30px;
+  text-align:center;
+  color:#FFA71C;
+  background-color:#F4F4F4;
+  border:none;
+  width:66px;
+  border-radius:14px;
+  margin-top:20px;
+}
