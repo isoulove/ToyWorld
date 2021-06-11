@@ -6,6 +6,8 @@ import './main.css';
 import Home from '../home/home';
 import Add from '../add/add';
 import My from '../my/my';
+import Message from '../message/message';
+import Bbs from '../bbs/bbs';
 // import 'antd-mobile/dist/antd-mobile.css'; 
 import { NavBar, Icon,TabBar } from 'antd-mobile';
 class Main extends React.Component {
@@ -82,7 +84,7 @@ class Main extends React.Component {
             });
           }}
         >
-          <Add />
+          <Bbs />
         </TabBar.Item>
         <TabBar.Item
           icon={
@@ -139,7 +141,7 @@ class Main extends React.Component {
             });
           }}
         >
-          <My />
+          <Message />
           {/* {this.renderContent('My')} */}
         </TabBar.Item>
         <TabBar.Item

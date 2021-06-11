@@ -29,7 +29,7 @@
   width:100%;
   margin-top: 15px;
   border-radius:10px;
-  height:329px;
+  max-height:329px;
   overflow:hidden;
   box-shadow: darkgrey 6px 6px 8px 5px;
 }
@@ -49,4 +49,8 @@
   width:66px;
   border-radius:14px;
   margin-top:20px;
+}
+.home-good-img-size{
+  max-height:239px;
+  overflow:hidden
 }

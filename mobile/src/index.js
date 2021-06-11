@@ -21,7 +21,7 @@ window.auth = window.flowSer.authorizeMinter()
 
 ReactDOM.render(
   <Provider {...stores}>
-    <BrowserRouter>
+    <BrowserRouter >
         <App />
     </BrowserRouter>
   </Provider>

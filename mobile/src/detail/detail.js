@@ -1,12 +1,26 @@
 import React from 'react'
 import {WhiteSpace,Icon,Modal,Toast } from 'antd-mobile';
+import {GLTFModel,AmbientLight,DirectionLight} from 'react-3d-viewer'
+// import {withRouter } from 'react-router-dom'
+
 import { inject, observer } from 'mobx-react'
 import './detail.css';
 @inject('appStore')  
 @observer
 class Detail extends React.Component {
 
-    state = {buy:false,modal1:false}
+    constructor(props){
+      super()
+      let type = props.match.params.type || 0
+      type = parseInt(type)
+      this.state = {
+        buy:false,
+        modal1:false,
+        type:type,
+        width: window.innerWidth*1
+      }
+    }
+   
     toBuy = ()=>{
         this.setState({modal1:true})
     }
@@ -15,14 +29,19 @@ class Detail extends React.Component {
         this.setState({modal1:false})
     }
 
+    componentDidMount(){
+     
+    }
+
     buyOk = ()=>{
         // 调取接口购买
         this.setState({modal1:false})
         Toast.success('购买成功', 2);
     }
 
+   
   render (){
-      const {appStore} = this.props
+      const {width} = this.state
     return (
       <div style={{padding:'0 0 90px 0'}}>
           <div className="top-nav" onClick={() => this.props.history.goBack()} >
@@ -37,14 +56,34 @@ class Detail extends React.Component {
             </NavBar> */}
             <div className="detail-box" >
                 <div style={{minHeight:'239px'}}>
-                    <img src="assets/images/1.jpg" style={{width:'100%'}} />
+                  {
+                    this.state.type==1?
+                    <img src="/assets/images/1.jpg" style={{width:'100%'}} />
+                    :this.state.type==2?
+                    <GLTFModel
+                      src="/assets/scene.gltf"
+                      position={{x:0,y:-160,z:0}}
+                      width={width} 
+                      height={width}
+                      onLoad={()=>{
+                        this.props.onLoaded()
+                      }}
+                    >
+                      <AmbientLight color={0xffffff}/>
+                      <DirectionLight color={0xffffff} position={{x:100,y:200,z:100}}/>
+                      <DirectionLight color={0xff00ff} position={{x:-100,y:100,z:-100}}/>
+                    </GLTFModel>
+                    :''
+
+                  }
+                    
                 </div>
                 <div className="bkc-fff" style={{height:'85px',borderBottom:'1px solid #C4C4C4'}}>
                     <div style={{float:'left',width:'70%',marginTop:'10px',paddingLeft:'16px'}}>
                     <div style={{fontSize:'20px',fontWeight:500,lineHeight:'21px'}}>摩尔庄园：吉比特</div>
                     <div style={{display:'flex',marginTop:'10px',alignItems:'center'}}>
                         <div className="avator-box">
-                        <img src="assets/images/ava.jpg" style={{width:'32px'}} />
+                        <img src="/assets/images/ava.jpg" style={{width:'32px'}} />
                         </div>
                         <div style={{marginLeft:'8px'}}>@7onder</div>
                     </div>
@@ -71,7 +110,7 @@ class Detail extends React.Component {
           <WhiteSpace />
           <div className="bottom-item">
   
-            <div onClick={this.toBuy} className="buy-now" style={{background: 'url(assets/images/button-lg.jpg) center center / 260px 46px no-repeat'}}>
+            <div onClick={this.toBuy} className="buy-now" style={{background: 'url(/assets/images/button-lg.jpg) center center / 260px 46px no-repeat'}}>
                 立即购买
             </div>
           </div>
@@ -93,7 +132,7 @@ class Detail extends React.Component {
                 <div className="mt10">数量：1</div>
                 <div style={{marginTop:'32px'}}>
                    <div onClick={this.onClose} className="checkBtn" style={{float:'left'}}>取消</div>
-                   <div onClick={this.buyOk} className="checkBtn" style={{float:'right',background:'url(assets/images/button-lg.jpg) center center / 96px 32px no-repeat'}}>确认购买</div>
+                   <div onClick={this.buyOk} className="checkBtn" style={{float:'right',background:'url(/assets/images/button-lg.jpg) center center / 96px 32px no-repeat'}}>确认购买</div>
                 </div>
                 
           </div>
