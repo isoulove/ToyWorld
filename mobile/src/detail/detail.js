@@ -29,7 +29,7 @@ class Detail extends React.Component {
       const userInfo = this.props.userStore.userInfo
       if(!userInfo.loggedIn){
         this.props.userStore.tools.logIn()
-      }else if(money<=0){
+      }else if(money<100){
         this.setState({modal2:true})
       }else{
         this.setState({modal1:true})
@@ -84,9 +84,13 @@ class Detail extends React.Component {
           Toast.fail('请选择金额',2)
           return;
        }
-       
-       const res = this.props.userStore.mintToyCoin(this.props.userStore.userInfo.addr)
-       console.log(res)
+       const _this = this
+       this.props.userStore.mintToyCoin(this.props.userStore.userInfo.addr,amount,function(res){
+         if(res=='success'){
+           Toast.success('充值成功',2)
+           _this.onClose2()
+         }
+       })
     }
 
    
@@ -139,8 +143,8 @@ class Detail extends React.Component {
                     </div>
                     </div>
                     <div style={{float:'right',verticalAlign:'middle',height:'100%',marginRight:'22px',marginTop:'35px'}}>
-                        <span style={{color:'#FFA71C',fontSize:'22px',fontWeight:700}}>1.125</span>&nbsp;
-                        <span style={{lineHeight:'20px',fontWeight:500,color:'#353535'}}>ETH</span>
+                        <span style={{color:'#FFA71C',fontSize:'22px',fontWeight:700}}>100</span>&nbsp;
+                        <span style={{lineHeight:'20px',fontWeight:500,color:'#353535'}}>CB</span>
                     </div>
                 </div>
 
@@ -176,8 +180,7 @@ class Detail extends React.Component {
         //   afterClose={() => { alert('afterClose'); }}
         >
           <div style={{ minHeight: 100}}>
-                <div>价格：400CB</div>
-                <div className="mt10">价格：400CB</div>
+                <div className="mt10">价格：100CB</div>
                 <div className="mt10">潮玩名称#21</div>
                 <div className="mt10">数量：1</div>
                 <div style={{marginTop:'32px'}}>

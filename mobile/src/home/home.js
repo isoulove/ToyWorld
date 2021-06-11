@@ -95,7 +95,7 @@ class Home extends React.Component {
                       </div>
                       <div style={{float:'right',verticalAlign:'middle',height:'100%',marginRight:'22px'}}>
                         <div className="buy-button"> <Link to='/detail' style={{color:'#FFA71C'}}>购买</Link> </div>
-                        <div style={{marginTop:'5px',fontSize:'11px',lineHeight:'20px',fontWeight:400,color:'rgba(53, 53, 53, 0.5)'}}>1.125 ETH</div>
+                        <div style={{marginTop:'5px',fontSize:'11px',lineHeight:'20px',fontWeight:400,color:'rgba(53, 53, 53, 0.5)'}}>100 CB</div>
                       </div>
                     </div>
                 </div>
@@ -115,7 +115,7 @@ class Home extends React.Component {
                       </div>
                       <div style={{float:'right',verticalAlign:'middle',height:'100%',marginRight:'22px'}}>
                         <div className="buy-button"> <Link to='/detail' style={{color:'#FFA71C'}}>购买</Link> </div>
-                        <div style={{marginTop:'5px',fontSize:'11px',lineHeight:'20px',fontWeight:400,color:'rgba(53, 53, 53, 0.5)'}}>1.125 ETH</div>
+                        <div style={{marginTop:'5px',fontSize:'11px',lineHeight:'20px',fontWeight:400,color:'rgba(53, 53, 53, 0.5)'}}>100 CB</div>
                       </div>
                     </div>
                 </div>

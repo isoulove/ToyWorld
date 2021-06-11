@@ -71,7 +71,7 @@ class My extends React.Component {
                           </div>
                           <div style={{marginTop:'10px'}}>
                             <div style={{float:'left',color:'#E94D5E'}}>
-                              <span style={{fontSize:'11px'}}>¥</span>  <span style={{fontSize:'16px'}}>35</span>
+                              <span style={{fontSize:'11px'}}>¥</span>  <span style={{fontSize:'16px'}}>100 CB</span>
                             </div>
                             <div style={{display:'flex',alignItems:'center',float:'right'}}>
                               <div className="avator-box1">
@@ -92,7 +92,7 @@ class My extends React.Component {
                           </div>
                           <div style={{marginTop:'10px'}}>
                             <div style={{float:'left',color:'#E94D5E'}}>
-                              <span style={{fontSize:'11px'}}>¥</span>  <span style={{fontSize:'16px'}}>35</span>
+                              <span style={{fontSize:'11px'}}>¥</span>  <span style={{fontSize:'16px'}}>100 CB</span>
                             </div>
                             <div style={{display:'flex',alignItems:'center',float:'right'}}>
                               <div className="avator-box1">
