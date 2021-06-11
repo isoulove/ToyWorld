@@ -8,7 +8,12 @@ import { inject, observer } from 'mobx-react'
 @inject('userStore')  
 @observer
 class My extends React.Component {
-  state = {showList:false,userInfo:null,buyNum:0}
+  userInfo = this.props.userStore.userInfo
+  state = {
+    showList: this.userInfo.addr!=null,
+    userInfo: this.userInfo, 
+    buyNum: this.props.userStore.toyItems.length,
+  }
 
   goDetail = ()=>{
     this.props.history.push({
@@ -61,6 +66,7 @@ class My extends React.Component {
             :
             <div className="goodList">
             <div className="list">
+                  {userStore.toyItems.map((product) => (
                   <div className="item" onClick={this.goDetail}>
                       <div className="item-inner">
                           <div className="img">
@@ -82,6 +88,7 @@ class My extends React.Component {
                           </div>
                       </div>
                   </div>
+                  ))}
                   <div className="item" onClick={this.goDetail}>
                       <div className="item-inner">
                           <div className="img">

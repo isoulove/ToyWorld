@@ -4,7 +4,8 @@ import { Link,withRouter } from 'react-router-dom'
 
 import { inject, observer } from 'mobx-react'
 import './home.css';
-@inject('appStore')  
+@inject('appStore')
+@inject('marketStore')
 @observer
 class Home extends React.Component {
 
@@ -26,6 +27,7 @@ class Home extends React.Component {
   
   render (){
       const {appStore} = this.props
+      const {marketStore} = this.props
       console.log(this.props)
     return (
       <div style={{padding:'15px 0',background:'url(assets/images/back.png) 100% y-repeat'}}>
@@ -99,6 +101,7 @@ class Home extends React.Component {
                       </div>
                     </div>
                 </div>
+                {marketStore.marketItems.map((product) => (
                 <div className="good-box" onClick={this.goodClick.bind(this,2)}>
                     <div className="home-good-img-size" style={{}}>
                       <img src="assets/images/banner.jpg" style={{width:'100%'}} />
@@ -119,6 +122,7 @@ class Home extends React.Component {
                       </div>
                     </div>
                 </div>
+                ))}
           </div>
           {/* 这是首页: 数字{appStore.num}
           <Button type="primary" onClick={this.addNum}>增加</Button> */}
