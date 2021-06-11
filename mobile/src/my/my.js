@@ -39,7 +39,53 @@ class My extends React.Component {
                 <div style={{marginRight:'15px',float:'right',fontSize:'14px',fontWeight:400,lineHeight:'22px'}}>我发布的（0）</div>
             </div>
           </div>
-          
+          <div className="goodList">
+            <div className="list">
+                  <div className="item">
+                      <div className="item-inner">
+                          <div className="img">
+                              <img src="assets/images/test.jpg" />
+                          </div>
+                          <div className="title">
+                            摩尔庄园：吉比特炒行星星球潮玩
+                          </div>
+                          <div style={{marginTop:'10px'}}>
+                            <div style={{float:'left',color:'#E94D5E'}}>
+                              <span style={{fontSize:'11px'}}>¥</span>  <span style={{fontSize:'16px'}}>35</span>
+                            </div>
+                            <div style={{display:'flex',alignItems:'center',float:'right'}}>
+                              <div className="avator-box1">
+                                <img src="assets/images/ava.jpg" style={{width:'20px'}} />
+                              </div>
+                              <div style={{marginLeft:'2px',fontSize:'10px'}}>@7onder</div>
+                            </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div className="item">
+                      <div className="item-inner">
+                          <div className="img">
+                              <img src="assets/images/test.jpg" />
+                          </div>
+                          <div className="title">
+                            摩尔庄园：吉比特炒行星星球潮玩
+                          </div>
+                          <div style={{marginTop:'10px'}}>
+                            <div style={{float:'left',color:'#E94D5E'}}>
+                              <span style={{fontSize:'11px'}}>¥</span>  <span style={{fontSize:'16px'}}>35</span>
+                            </div>
+                            <div style={{display:'flex',alignItems:'center',float:'right'}}>
+                              <div className="avator-box1">
+                                <img src="assets/images/ava.jpg" style={{width:'20px'}} />
+                              </div>
+                              <div style={{marginLeft:'2px',fontSize:'10px'}}>@7onder</div>
+                            </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div className="clear"></div>
+              </div>
+          </div>
       </div>
       
     )
