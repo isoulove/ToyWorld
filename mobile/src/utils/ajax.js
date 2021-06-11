@@ -1,7 +1,7 @@
 import 'isomorphic-fetch'
 import { Toast } from 'antd-mobile'
 
-const BASE_URL = 'http://localhost:3008/v1/'
+const BASE_URL = 'http://106.53.141.192:3000/v1/'
 
 /**
  * 处理url

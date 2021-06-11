@@ -15,23 +15,23 @@ let knexInstance: Knex;
 async function run() {
   const config = getConfig();
 
-  knexInstance = Knex({
+  /*knexInstance = Knex({
     client: "postgresql",
     connection: config.databaseUrl,
     migrations: {
       directory: config.databaseMigrationPath,
     },
-  });
+  });*/
 
   // Make sure to disconnect from DB when exiting the process
-  process.on("SIGTERM", () => {
+  /*process.on("SIGTERM", () => {
     knexInstance.destroy().then(() => {
       process.exit(0);
     });
-  });
+  });*/
 
   // Run all database migrations
-  await knexInstance.migrate.latest();
+  // await knexInstance.migrate.latest();
 
   // Make sure we're pointing to the correct Flow Access API.
   fcl.config().put("accessNode.api", config.accessApi);

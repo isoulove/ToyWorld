@@ -3,6 +3,10 @@ import './my.css';
 import { Toast } from 'antd-mobile';
 import { withRouter } from 'react-router-dom'
 
+import { inject, observer } from 'mobx-react'
+
+@inject('userStore')  
+@observer
 class My extends React.Component {
   state = {showList:false,userInfo:null,buyNum:0}
 
@@ -14,12 +18,14 @@ class My extends React.Component {
 
   toWallet = ()=>{
     //连接钱包操作，获取商品列表
-    Toast.success('连接成功！', 2);
+    this.props.userStore.tools.logIn()
+    //Toast.success('连接成功！', 2);
     this.setState({showList:true,buyNum:2})
   }
 
   
   render (){
+  	const {userStore} = this.props
     return (
       <div style={{ background: 'url(assets/images/back.png) center center / 100%  repeat-y',height:'100%'}}>
           <div style={{height:'160px',borderBottom:'1px solid #ddd'}}>
@@ -30,7 +36,9 @@ class My extends React.Component {
                   </div>
                   <div style={{marginLeft:'8px',fontSize:'16px',fontWeight:600,color:'#333'}}>
                     @7onder
-                    <div style={{marginTop:'8px',fontSize:'12px',fontWeight:400,color:'#4f4f4f'}}>ID:19860102</div>
+                    <div style={{marginTop:'8px',fontSize:'12px',fontWeight:400,color:'#4f4f4f'}}>ID:{userStore.userInfo.addr}</div>
+                    <div style={{marginTop:'8px',fontSize:'12px',fontWeight:400,color:'#4f4f4f'}}>潮币余额：{userStore.cbBalance}</div>
+                    <div style={{marginTop:'8px',fontSize:'12px',fontWeight:400,color:'#4f4f4f'}}>Flow余额：{userStore.flowBalance}</div>
                     </div>
               </div>
               <div style={{float:'right'}}>
