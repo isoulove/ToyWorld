@@ -18,7 +18,7 @@ class UserStore {
     // 账户flow余额
     @observable flowBalance = 0
     // 账户NFT集合
-    @observable toyItems = null
+    @observable toyItems = []
 
     tools = {
         // 登陆
