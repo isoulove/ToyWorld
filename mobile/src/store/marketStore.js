@@ -3,6 +3,7 @@ import {getRequest} from '../utils/ajax'
 import {Toast} from 'antd-mobile'
 
 import {createSaleOffer} from "../flow/create-sale-offer.tx"
+import {buyMarketItem} from "../flow/buy-market-item.tx"
 
 class MarketStore {
     // 市场集合
@@ -34,7 +35,7 @@ class MarketStore {
 
     // 卖出NFT
     @action
-    sell = (itemID, price) => {
+    sell = (itemID, price, cb) => {
         //测试
         itemID = 3
         price = "10.0"
@@ -50,12 +51,14 @@ class MarketStore {
                     that.fetchMarketItems()
                     Toast.hide()
                     Toast.success('发布成功！', 1)
+                    if(cb) cb("success")
                 },
                 async onComplete() {
                     
                 },
                 async onError(error) {
                     Toast.fail('发布失败：'+error, 2)
+                    if(cb) cb("fail"+error)
                 },
             }
         )
@@ -63,7 +66,7 @@ class MarketStore {
 
     // 买入NFT
     @action
-    buy = (item) => {
+    buy = (item, cb) => {
         // 测试
         item = {
             owner: "0xf92eed27ae86ad18",
@@ -80,7 +83,7 @@ class MarketStore {
         }
         var that = this
         Toast.loading('正在购买...', 0)
-        createSaleOffer(
+        buyMarketItem(
             {itemID: item.itemID, ownerAddress: item.owner},
             {
                 onStart() {
@@ -90,11 +93,13 @@ class MarketStore {
                     that.fetchMarketItems()
                     Toast.hide()
                     Toast.success('购买成功！', 1)
+                    if(cb) cb("success")
                 },
                 async onComplete() {
                 },
                 async onError(error) {
                     Toast.fail('发布失败：'+error, 2)
+                    if(cb) cb("fail"+error)
                 },
             }
         )

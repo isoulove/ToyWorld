@@ -64,22 +64,24 @@ class UserStore {
 
     // 领取潮币
     @action
-    mintToyCoin = (address) => {
+    mintToyCoin = (address, amount, cb) => {
         console.log("mintToyCoin");
 
         if(!address) Promise(null)
         var rs = postRequest("toycoin/mint",{
             recipient: address,
-            amount: 1000.0,
+            amount: amount,
         })
-        Toast.loading('正在领取...', 0)
+        Toast.loading('正在充值...', 0)
         rs.then(()=>{
             this.fetchToyCoinBalance(address)
             Toast.hide()
+            if(cb!=undefined) cb("success")
         }).catch((err) => {
             Toast.fail('失败：'+err, 2)
-            
+            if(cb!=undefined) cb("fail"+err)
         })
+        return rs
     }
 
     // 账户NFT集合
@@ -98,7 +100,7 @@ class UserStore {
 
     // 铸造NFT
     @action
-    mintToyItems = (metadata, address) => {
+    mintToyItems = (metadata, address, cb) => {
         console.log("mintToyItems");
         // 元数据格式
         metadata = {
@@ -122,8 +124,10 @@ class UserStore {
         rs.then((res)=>{
             Toast.hide()
             this.fetchAccountItems(address)
+            if(cb!=undefined) cb("success")
         }).catch((err) => {
             Toast.fail('失败：'+err, 2)
+            if(cb!=undefined) cb("fail"+err)
         })
     }
 
