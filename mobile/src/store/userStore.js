@@ -76,9 +76,10 @@ class UserStore {
         rs.then(()=>{
             this.fetchToyCoinBalance(address)
             Toast.hide()
-            if(cb!=undefined) cb()
+            if(cb!=undefined) cb("success")
         }).catch((err) => {
             Toast.fail('失败：'+err, 2)
+            if(cb!=undefined) cb("fail"+err)
         })
         return rs
     }
@@ -99,7 +100,7 @@ class UserStore {
 
     // 铸造NFT
     @action
-    mintToyItems = (metadata, address) => {
+    mintToyItems = (metadata, address, cb) => {
         console.log("mintToyItems");
         // 元数据格式
         metadata = {
@@ -123,8 +124,10 @@ class UserStore {
         rs.then((res)=>{
             Toast.hide()
             this.fetchAccountItems(address)
+            if(cb!=undefined) cb("success")
         }).catch((err) => {
             Toast.fail('失败：'+err, 2)
+            if(cb!=undefined) cb("fail"+err)
         })
     }
 

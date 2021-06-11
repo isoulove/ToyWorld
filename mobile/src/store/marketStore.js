@@ -35,7 +35,7 @@ class MarketStore {
 
     // 卖出NFT
     @action
-    sell = (itemID, price) => {
+    sell = (itemID, price, cb) => {
         //测试
         itemID = 3
         price = "10.0"
@@ -51,12 +51,14 @@ class MarketStore {
                     that.fetchMarketItems()
                     Toast.hide()
                     Toast.success('发布成功！', 1)
+                    if(cb) cb("success")
                 },
                 async onComplete() {
                     
                 },
                 async onError(error) {
                     Toast.fail('发布失败：'+error, 2)
+                    if(cb) cb("fail"+error)
                 },
             }
         )
@@ -64,7 +66,7 @@ class MarketStore {
 
     // 买入NFT
     @action
-    buy = (item) => {
+    buy = (item, cb) => {
         // 测试
         item = {
             owner: "0xf92eed27ae86ad18",
@@ -91,11 +93,13 @@ class MarketStore {
                     that.fetchMarketItems()
                     Toast.hide()
                     Toast.success('购买成功！', 1)
+                    if(cb) cb("success")
                 },
                 async onComplete() {
                 },
                 async onError(error) {
                     Toast.fail('发布失败：'+error, 2)
+                    if(cb) cb("fail"+error)
                 },
             }
         )
