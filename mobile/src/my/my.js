@@ -5,6 +5,8 @@ import { withRouter } from 'react-router-dom'
 
 import { inject, observer } from 'mobx-react'
 
+import * as fcl from "@onflow/fcl"
+
 @inject('userStore')  
 @observer
 class My extends React.Component {
@@ -13,6 +15,15 @@ class My extends React.Component {
     showList: this.userInfo.addr!=null,
     userInfo: this.userInfo, 
     buyNum: this.props.userStore.toyItems.length,
+  }
+
+  componentDidMount(){
+    const _this=this
+    fcl.currentUser().subscribe((user)=>{
+      if(user.addr!=null){
+        this.setState({showList:true, userInfo: _this.userInfo})
+      }
+    })
   }
 
   goDetail = (e)=>{
@@ -52,7 +63,7 @@ class My extends React.Component {
             </div>
 
             <div style={{padding:'30px 54px 10px 54px'}}>
-                <div style={{marginLeft:'15px',float:'left',color:'#FFA71C',fontSize:'14px',fontWeight:400,lineHeight:'22px'}}>我的购买（{this.state.buyNum}）</div>
+                <div style={{marginLeft:'15px',float:'left',color:'#FFA71C',fontSize:'14px',fontWeight:400,lineHeight:'22px'}}>我的购买（{userStore.toyItems.length}）</div>
                 <div style={{marginRight:'15px',float:'right',fontSize:'14px',fontWeight:400,lineHeight:'22px'}}>我发布的（0）</div>
             </div>
           </div>

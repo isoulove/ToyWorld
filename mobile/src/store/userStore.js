@@ -136,9 +136,10 @@ class UserStore {
     @action
     setUser = (user) => {
         var preLoggedIn = this.userInfo.loggedIn
-        this.userInfo.addr = user.addr
-        this.userInfo.loggedIn = user.loggedIn
-        this.userInfo.cid = user.cid
+        // this.userInfo.addr = user.addr
+        // this.userInfo.loggedIn = user.loggedIn
+        // this.userInfo.cid = user.cid
+        this.userInfo = user
         var that = this
         if(preLoggedIn==null&&user.loggedIn){
             Toast.success('登陆成功！', 1)
