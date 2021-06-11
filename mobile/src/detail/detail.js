@@ -21,6 +21,7 @@ class Detail extends React.Component {
         Toast.success('购买成功', 2);
     }
 
+   
   render (){
       const {appStore} = this.props
     return (

@@ -1,18 +1,22 @@
 import React from 'react'
 import './my.css'; 
-import { NavBar, Icon,TabBar } from 'antd-mobile';
+import { Toast } from 'antd-mobile';
+import { withRouter } from 'react-router-dom'
 
 class My extends React.Component {
-  constructor(props) {
-    super(props);
-   
+  state = {showList:false,userInfo:null,buyNum:0}
+
+  goDetail = ()=>{
+    this.props.history.push({
+      pathname: '/detail'
+    });
   }
 
-  componentDidMount() {
-    
+  toWallet = ()=>{
+    //连接钱包操作，获取商品列表
+    Toast.success('连接成功！', 2);
+    this.setState({showList:true,buyNum:2})
   }
-
-  
 
   
   render (){
@@ -35,13 +39,21 @@ class My extends React.Component {
             </div>
 
             <div style={{padding:'30px 54px 10px 54px'}}>
-                <div style={{marginLeft:'15px',float:'left',color:'#FFA71C',fontSize:'14px',fontWeight:400,lineHeight:'22px'}}>我的购买（2）</div>
+                <div style={{marginLeft:'15px',float:'left',color:'#FFA71C',fontSize:'14px',fontWeight:400,lineHeight:'22px'}}>我的购买（{this.state.buyNum}）</div>
                 <div style={{marginRight:'15px',float:'right',fontSize:'14px',fontWeight:400,lineHeight:'22px'}}>我发布的（0）</div>
             </div>
           </div>
-          <div className="goodList">
+          {
+            !this.state.showList?
+            <div style={{margin:'0 auto',marginTop:'20px'}}>
+              <div onClick={this.toWallet} className="buy-now" style={{background: 'url(assets/images/button-lg.jpg) center center / 260px 46px no-repeat'}}>
+                连接钱包
+            </div>
+            </div>
+            :
+            <div className="goodList">
             <div className="list">
-                  <div className="item">
+                  <div className="item" onClick={this.goDetail}>
                       <div className="item-inner">
                           <div className="img">
                               <img src="assets/images/test.jpg" />
@@ -62,7 +74,7 @@ class My extends React.Component {
                           </div>
                       </div>
                   </div>
-                  <div className="item">
+                  <div className="item" onClick={this.goDetail}>
                       <div className="item-inner">
                           <div className="img">
                               <img src="assets/images/test.jpg" />
@@ -86,6 +98,8 @@ class My extends React.Component {
                   <div className="clear"></div>
               </div>
           </div>
+          }
+         
       </div>
       
     )
@@ -93,4 +107,4 @@ class My extends React.Component {
   
 }
 
-export default My;
+export default withRouter(My);

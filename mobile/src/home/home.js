@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, WhiteSpace,WingBlank,SearchBar,InputItem,Carousel,Icon } from 'antd-mobile';
-import { Link } from 'react-router-dom'
+import { Link,withRouter } from 'react-router-dom'
 
 import { inject, observer } from 'mobx-react'
 import './home.css';
@@ -16,9 +16,17 @@ class Home extends React.Component {
     imgHeight: 176,
     data: ['1', '2', '3'],
   }
+
+  goodClick = (e)=>{
+    this.props.history.push({
+        pathname: '/detail'
+      });
+}
+
   
   render (){
       const {appStore} = this.props
+      console.log(this.props)
     return (
       <div style={{padding:'15px 0',background:'url(assets/images/back.png) 100% y-repeat'}}>
           <WingBlank>
@@ -70,7 +78,7 @@ class Home extends React.Component {
             <span style={{float:'right',fontSize:'14px',fontWeight:400,color:'#353535'}}>更多</span>
           </div>
           <div className="newList">
-                <div className="good-box" >
+                <div className="good-box" onClick={this.goodClick}>
                     <div style={{height:'239px',overflow:'hidden'}}>
                       <img src="assets/images/1.jpg" style={{width:'100%'}} />
                     </div>
@@ -101,4 +109,4 @@ class Home extends React.Component {
 
 }
 
-export default Home;
+export default withRouter(Home);
