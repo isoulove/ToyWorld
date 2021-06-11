@@ -3,13 +3,15 @@ import ToyItems from "../../contracts/ToyItems.cdc"
 import ToyItemsMarket from "../../contracts/ToyItemsMarket.cdc"
 
 pub struct ToyItemStruct {
+    pub let owner: Address
     pub let itemID: UInt64
     pub let typeID: UInt64
     pub let author: Address
     pub let metadata: String
     pub let price: UFix64
 
-    init(itemID: UInt64, typeID: UInt64, author: Address, metadata: String, price: UFix64) {
+    init(owner: Address, itemID: UInt64, typeID: UInt64, author: Address, metadata: String, price: UFix64) {
+        self.owner = owner
         self.itemID = itemID
         self.typeID = typeID
         self.author = author
@@ -41,6 +43,7 @@ pub fun main(): [ToyItemStruct] {
                 ?? panic("No such itemID in that collection")
 
             items.append(ToyItemStruct(
+                owner: address,
                 itemID: saleOffers[key]!!.itemID, 
                 typeID: toyItem.typeID,
                 author: toyItem.author,

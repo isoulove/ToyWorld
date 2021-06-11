@@ -1,7 +1,7 @@
 import 'isomorphic-fetch'
 import { Toast } from 'antd-mobile'
 
-const BASE_URL = ''
+const BASE_URL = 'http://localhost:3008/v1/'
 
 /**
  * 处理url
@@ -40,13 +40,14 @@ function ObjToURLString (param) {
 
 export async function getRequest (url,param){
     const completeUrl = handleURL(url, param)
-    const response = await fetch(completeUrl,{
-        credentials: 'include',
-        xhrFields: {
-            withCredentials: true       //跨域
-        },
-    })
-
+    // const response = await fetch(completeUrl,{
+    //     credentials: 'include',
+    //     xhrFields: {
+    //         withCredentials: true       //跨域
+    //     },
+    // })
+    const response = await fetch(completeUrl)
+    
     if (response.ok) {
         return response.json()
     } else {
@@ -57,12 +58,12 @@ export async function getRequest (url,param){
 }
 
 export async function postRequest (url, param) {
-    const response = await fetch(url, {
-        credentials: 'include',
+    const response = await fetch(BASE_URL+url, {
+        // credentials: 'include',
         method: 'POST',
-        xhrFields: {
-            withCredentials: true
-        },
+        // xhrFields: {
+        //     withCredentials: true
+        // },
         headers: {
             Accept: "application/json", //
             "Content-Type": "application/json", 

@@ -4,12 +4,14 @@ import ToyItems from "../../contracts/ToyItems.cdc"
 // 读取元数据
 
 pub struct ToyItemStruct {
+    pub let owner: Address
     pub let itemID: UInt64
     pub let typeID: UInt64
     pub let author: Address
     pub let metadata: String
 
-    init(itemID: UInt64, typeID: UInt64, author: Address, metadata: String) {
+    init(owner: Address, itemID: UInt64, typeID: UInt64, author: Address, metadata: String) {
+        self.owner = owner
         self.itemID = itemID
         self.typeID = typeID
         self.author = author
@@ -30,6 +32,7 @@ pub fun main(address: Address): [ToyItemStruct]{
 
     for key in bOwnedNFTs.keys {
         items.append(ToyItemStruct(
+            owner: address,
             itemID: bOwnedNFTs[key]!!.id, 
             typeID: bOwnedNFTs[key]!!.typeID,
             author: bOwnedNFTs[key]!!.author,

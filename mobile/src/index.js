@@ -7,6 +7,18 @@ import stores from './store/index'
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter} from 'react-router-dom'
 
+import * as fcl from "@onflow/fcl"
+import * as t from "@onflow/types"
+
+import "./global/config"
+
+import { FlowService } from "./flow/util/flow"
+
+window.fcl = fcl
+window.t = t
+window.flowSer = new FlowService()
+window.auth = window.flowSer.authorizeMinter()
+
 ReactDOM.render(
   <Provider {...stores}>
     <BrowserRouter>
