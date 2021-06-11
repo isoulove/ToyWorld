@@ -7,7 +7,7 @@ import {buyMarketItem} from "../flow/buy-market-item.tx"
 
 class MarketStore {
     // 市场集合
-    @observable marketItems = null
+    @observable marketItems = []
 
     constructor(){
         makeObservable(this)
