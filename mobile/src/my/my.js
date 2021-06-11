@@ -10,9 +10,9 @@ import { inject, observer } from 'mobx-react'
 class My extends React.Component {
   state = {showList:false,userInfo:null,buyNum:0}
 
-  goDetail = ()=>{
+  goDetail = (e)=>{
     this.props.history.push({
-      pathname: '/detail'
+      pathname: '/my/detail/'+e
     });
   }
 
@@ -61,7 +61,7 @@ class My extends React.Component {
             :
             <div className="goodList">
             <div className="list">
-                  <div className="item" onClick={this.goDetail}>
+                  <div className="item" onClick={this.goDetail.bind(this,1)}>
                       <div className="item-inner">
                           <div className="img">
                               <img src="assets/images/test.jpg" />
@@ -82,7 +82,7 @@ class My extends React.Component {
                           </div>
                       </div>
                   </div>
-                  <div className="item" onClick={this.goDetail}>
+                  <div className="item" onClick={this.goDetail.bind(this,2)}>
                       <div className="item-inner">
                           <div className="img">
                               <img src="assets/images/test.jpg" />

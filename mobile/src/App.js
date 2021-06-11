@@ -6,6 +6,7 @@ import './App.css';
 
 import Main from './main/main';
 import Detail from './detail/detail'
+import MyBuyDetail from './my/detail/detail'
 // import 'antd-mobile/dist/antd-mobile.css'; 
 import { NavBar, Icon,TabBar } from 'antd-mobile';
 @inject('appStore') @withRouter
@@ -17,6 +18,7 @@ class App extends React.Component {
        <Switch>
             <Route path='/' exact component={Main}/>
             <Route path={`/detail/:type`} component={Detail}/>
+            <Route path={`/my/detail/:type`} component={MyBuyDetail}/>
             <Redirect exact from={'/'} to={'/find'}/>
         </Switch>
       </div>

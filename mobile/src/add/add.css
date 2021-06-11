@@ -1,0 +1,12 @@
+.choose{
+    height: 46px;
+    width: 280px;
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 13px;
+    overflow: hidden;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 46px;
+    color: #fff;
+  }
