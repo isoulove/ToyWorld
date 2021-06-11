@@ -64,21 +64,23 @@ class UserStore {
 
     // 领取潮币
     @action
-    mintToyCoin = (address) => {
+    mintToyCoin = (address, amount, cb) => {
         console.log("mintToyCoin");
 
         if(!address) Promise(null)
         var rs = postRequest("toycoin/mint",{
             recipient: address,
-            amount: 1000.0,
+            amount: amount,
         })
-        Toast.loading('正在领取...', 0)
+        Toast.loading('正在充值...', 0)
         rs.then(()=>{
             this.fetchToyCoinBalance(address)
             Toast.hide()
+            if(cb!=undefined) cb()
         }).catch((err) => {
             Toast.fail('失败：'+err, 2)
         })
+        return rs
     }
 
     // 账户NFT集合

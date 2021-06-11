@@ -3,6 +3,7 @@ import {getRequest} from '../utils/ajax'
 import {Toast} from 'antd-mobile'
 
 import {createSaleOffer} from "../flow/create-sale-offer.tx"
+import {buyMarketItem} from "../flow/buy-market-item.tx"
 
 class MarketStore {
     // 市场集合
@@ -80,7 +81,7 @@ class MarketStore {
         }
         var that = this
         Toast.loading('正在购买...', 0)
-        createSaleOffer(
+        buyMarketItem(
             {itemID: item.itemID, ownerAddress: item.owner},
             {
                 onStart() {
