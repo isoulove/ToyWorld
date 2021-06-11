@@ -4,7 +4,8 @@ import { Link,withRouter } from 'react-router-dom'
 
 import { inject, observer } from 'mobx-react'
 import './home.css';
-@inject('appStore')  
+@inject('appStore')
+@inject('marketStore')
 @observer
 class Home extends React.Component {
 
@@ -26,6 +27,7 @@ class Home extends React.Component {
   
   render (){
       const {appStore} = this.props
+      const {marketStore} = this.props
       console.log(this.props)
     return (
       <div style={{padding:'15px 0',background:'url(assets/images/back.png) 100% y-repeat'}}>
@@ -79,7 +81,7 @@ class Home extends React.Component {
             <span style={{float:'right',fontSize:'14px',fontWeight:400,color:'#353535'}}>更多</span>
           </div>
           <div className="newList">
-                <div className="good-box" onClick={this.goodClick.bind(this,1)}>
+                {/* <div className="good-box" onClick={this.goodClick.bind(this,1)}>
                     <div style={{height:'239px',overflow:'hidden'}}>
                       <img src="assets/images/1.jpg" style={{width:'100%'}} />
                     </div>
@@ -98,10 +100,11 @@ class Home extends React.Component {
                         <div style={{marginTop:'5px',fontSize:'11px',lineHeight:'20px',fontWeight:400,color:'rgba(53, 53, 53, 0.5)'}}>100 CB</div>
                       </div>
                     </div>
-                </div>
-                <div className="good-box" onClick={this.goodClick.bind(this,2)}>
+                </div> */}
+                {marketStore.marketItems.map((product,key) => (
+                <div className="good-box" onClick={this.goodClick.bind(this,key%2==0?1:2)}>
                     <div className="home-good-img-size" style={{}}>
-                      <img src="assets/images/banner.jpg" style={{width:'100%'}} />
+                      <img src="assets/images/1.jpg" style={{width:'100%'}} />
                     </div>
                     <div style={{height:'99px',backgroundColor:'#fff'}}>
                       <div style={{float:'left',width:'70%',marginTop:'10px',paddingLeft:'16px'}}>
@@ -119,6 +122,7 @@ class Home extends React.Component {
                       </div>
                     </div>
                 </div>
+                ))}
           </div>
           {/* 这是首页: 数字{appStore.num}
           <Button type="primary" onClick={this.addNum}>增加</Button> */}

@@ -87,6 +87,8 @@ class UserStore {
     // 账户NFT集合
     @action
     fetchAccountItems = (address) => {
+        console.log("fetchAccountItems");
+
         if (!address) return Promise.resolve(null)
         var rs = getRequest('toy-items/items/'+address)
         Toast.loading('正在查询...', 0)
@@ -154,6 +156,7 @@ class UserStore {
                         async onSuccess() {
                             that.fetchToyCoinBalance(user.addr)
                             that.fetchFlowBalance(user.addr)
+                            that.fetchAccountItems(user.addr)
                             Toast.hide()
                         },
                         onError(error) {
@@ -166,6 +169,7 @@ class UserStore {
                 }else{
                     this.fetchToyCoinBalance(user.addr)
                     this.fetchFlowBalance(user.addr)
+                    this.fetchAccountItems(user.addr)
                 }
             })
         }

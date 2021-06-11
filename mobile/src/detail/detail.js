@@ -5,7 +5,8 @@ import {GLTFModel,AmbientLight,DirectionLight} from 'react-3d-viewer'
 
 import { inject, observer } from 'mobx-react'
 import './detail.css';
-@inject('userStore')  
+@inject('userStore')
+@inject('marketStore')
 @observer
 class Detail extends React.Component {
 
@@ -42,16 +43,35 @@ class Detail extends React.Component {
 
     onClose2 = ()=>{
       this.setState({modal2:false})
-  }
+    }
 
     componentDidMount(){
      
     }
 
     buyOk = ()=>{
-        // 调取接口购买
-        this.setState({modal1:false})
-        Toast.success('购买成功', 2);
+      // 调取接口购买
+      var buyItem=null
+      const _this = this
+      const userInfo = this.props.userStore.userInfo
+      this.props.marketStore.marketItems.map((saleItem)=>{
+        buyItem = saleItem
+      })
+      if(buyItem!=null) {
+        this.props.marketStore.buy(buyItem, function(res){
+          if(res=='success'){
+            Toast.success('购买成功', 2)
+            _this.setState({modal1:false})
+            _this.props.marketStore.fetchMarketItems()
+            _this.props.userStore.fetchAccountItems(userInfo.addr)
+            _this.props.userStore.fetchToyCoinBalance(userInfo.addr)
+          }else{
+            Toast.fail('购买失败'+res, 2)
+          }
+        })
+      }else{
+        Toast.fail('购买失败，链上无可购买商品', 2)
+      }
     }
 
     onChangeAmount = (key,v,s)=>{
@@ -89,6 +109,7 @@ class Detail extends React.Component {
          if(res=='success'){
            Toast.success('充值成功',2)
            _this.onClose2()
+           _this.props.userStore.fetchToyCoinBalance()
          }
        })
     }
@@ -99,7 +120,7 @@ class Detail extends React.Component {
     return (
       <div style={{padding:'0 0 90px 0'}}>
           <div className="top-nav" onClick={() => this.props.history.goBack()} >
-            <Icon type="left"  size="lg" color="#fff" />
+            <Icon type="left"  size="lg" color="#ddd" />
           </div>
           {/* <NavBar
             mode="light"

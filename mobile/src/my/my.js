@@ -8,7 +8,12 @@ import { inject, observer } from 'mobx-react'
 @inject('userStore')  
 @observer
 class My extends React.Component {
-  state = {showList:false,userInfo:null,buyNum:0}
+  userInfo = this.props.userStore.userInfo
+  state = {
+    showList: this.userInfo.addr!=null,
+    userInfo: this.userInfo, 
+    buyNum: this.props.userStore.toyItems.length,
+  }
 
   goDetail = (e)=>{
     this.props.history.push({
@@ -20,7 +25,7 @@ class My extends React.Component {
     //连接钱包操作，获取商品列表
     this.props.userStore.tools.logIn()
     //Toast.success('连接成功！', 2);
-    this.setState({showList:true,buyNum:2})
+    // this.setState({showList:true,buyNum:2})
   }
 
   
@@ -41,8 +46,8 @@ class My extends React.Component {
                     <div style={{marginTop:'8px',fontSize:'12px',fontWeight:400,color:'#4f4f4f'}}>Flow余额：{userStore.flowBalance}</div>
                     </div>
               </div>
-              <div style={{float:'right'}}>
-                <img src="" />
+              <div style={{float:'right',marginRight:'10px',marginTop:'10px',padding:'5px',width:'30px',height:'30px',borderRadius:'15px',backgroundColor:'white'}}>
+                <img src="/assets/images/setting.png" style={{width:'20px'}} />
               </div>
             </div>
 
@@ -61,7 +66,8 @@ class My extends React.Component {
             :
             <div className="goodList">
             <div className="list">
-                  <div className="item" onClick={this.goDetail.bind(this,1)}>
+                  {userStore.toyItems.map((product,key) => (
+                  <div className="item" onClick={this.goDetail.bind(this,key%2==0?1:2)}>
                       <div className="item-inner">
                           <div className="img">
                               <img src="assets/images/test.jpg" />
@@ -82,7 +88,8 @@ class My extends React.Component {
                           </div>
                       </div>
                   </div>
-                  <div className="item" onClick={this.goDetail.bind(this,2)}>
+                  ))}
+                  {/* <div className="item" onClick={this.goDetail}>
                       <div className="item-inner">
                           <div className="img">
                               <img src="assets/images/test.jpg" />
@@ -102,7 +109,7 @@ class My extends React.Component {
                             </div>
                           </div>
                       </div>
-                  </div>
+                  </div> */}
                   <div className="clear"></div>
               </div>
           </div>
