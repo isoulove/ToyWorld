@@ -37,8 +37,8 @@ class MarketStore {
     @action
     sell = (itemID, price, cb) => {
         //测试
-        itemID = 3
-        price = "10.0"
+        // itemID = 3
+        // price = "10.0"
         var that = this
         Toast.loading('正在发布...', 0)
         createSaleOffer(
@@ -68,19 +68,19 @@ class MarketStore {
     @action
     buy = (item, cb) => {
         // 测试
-        item = {
-            owner: "0xf92eed27ae86ad18",
-            itemID: 0,
-            typeID: 2,
-            author: "0xf92eed27ae86ad18",
-            metadata: {
-                itemName: "沉思",
-                itemDesc: "1",
-                totalNum: 1,
-                ipfs:"/static/images/products/p1623329015809.png"
-            },
-            price: "10.00000000"
-        }
+        // item = {
+        //     owner: "0xf92eed27ae86ad18",
+        //     itemID: 0,
+        //     typeID: 2,
+        //     author: "0xf92eed27ae86ad18",
+        //     metadata: {
+        //         itemName: "沉思",
+        //         itemDesc: "1",
+        //         totalNum: 1,
+        //         ipfs:"/static/images/products/p1623329015809.png"
+        //     },
+        //     price: "10.00000000"
+        // }
         var that = this
         Toast.loading('正在购买...', 0)
         buyMarketItem(
