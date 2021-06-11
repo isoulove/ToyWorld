@@ -78,6 +78,7 @@ class UserStore {
             Toast.hide()
         }).catch((err) => {
             Toast.fail('失败：'+err, 2)
+            
         })
     }
 

@@ -1,11 +1,11 @@
 import React from 'react'
-import {WhiteSpace,Icon,Modal,Toast } from 'antd-mobile';
+import {WhiteSpace,Icon,Modal,Toast,Tag } from 'antd-mobile';
 import {GLTFModel,AmbientLight,DirectionLight} from 'react-3d-viewer'
 // import {withRouter } from 'react-router-dom'
 
 import { inject, observer } from 'mobx-react'
 import './detail.css';
-@inject('appStore')  
+@inject('userStore')  
 @observer
 class Detail extends React.Component {
 
@@ -16,18 +16,33 @@ class Detail extends React.Component {
       this.state = {
         buy:false,
         modal1:false,
+        modal2:false,
         type:type,
+        selectArr:[{amount:100,selected:false},{amount:200,selected:true},{amount:300,selected:false}],
+        amount:200,
         width: window.innerWidth*1
       }
     }
    
     toBuy = ()=>{
+      const money = this.props.userStore.cbBalance
+      const userInfo = this.props.userStore.userInfo
+      if(!userInfo.loggedIn){
+        this.props.userStore.tools.logIn()
+      }else if(money<=0){
+        this.setState({modal2:true})
+      }else{
         this.setState({modal1:true})
+      }
     }
 
     onClose = ()=>{
         this.setState({modal1:false})
     }
+
+    onClose2 = ()=>{
+      this.setState({modal2:false})
+  }
 
     componentDidMount(){
      
@@ -37,6 +52,41 @@ class Detail extends React.Component {
         // 调取接口购买
         this.setState({modal1:false})
         Toast.success('购买成功', 2);
+    }
+
+    onChangeAmount = (key,v,s)=>{
+      let {selectArr,amount} = this.state
+      if(s){
+        selectArr = selectArr.filter((value,ke)=>{
+          if(ke==key){
+            value.selected = true
+          }else{
+            value.selected = false
+          }
+          return value
+        })
+        amount = v.amount
+      }else{
+        selectArr = selectArr.filter((value,ke)=>{
+          if(ke==key){
+            value.selected = false
+          }
+          return value
+        })
+        amount = 0
+      }
+      this.setState({amount,selectArr})
+    }
+
+    checkPay = ()=>{
+       const {amount} = this.state
+       if(amount<=0){
+          Toast.fail('请选择金额',2)
+          return;
+       }
+       
+       const res = this.props.userStore.mintToyCoin(this.props.userStore.userInfo.addr)
+       console.log(res)
     }
 
    
@@ -133,6 +183,36 @@ class Detail extends React.Component {
                 <div style={{marginTop:'32px'}}>
                    <div onClick={this.onClose} className="checkBtn" style={{float:'left'}}>取消</div>
                    <div onClick={this.buyOk} className="checkBtn" style={{float:'right',background:'url(/assets/images/button-lg.jpg) center center / 96px 32px no-repeat'}}>确认购买</div>
+                </div>
+                
+          </div>
+        </Modal>
+        <Modal
+          visible={this.state.modal2}
+          transparent
+          maskClosable={true}
+          onClose={this.onClose2}
+          title="余额不足"
+        //   footer={[{ text: 'Ok', onPress: () => { console.log('ok'); this.onClose('modal1')(); } }]}
+        //   wrapProps={{ onTouchStart: this.onWrapTouchStart }}
+        //   afterClose={() => { alert('afterClose'); }}
+        >
+          <div style={{ minHeight: 100}}>
+                <div style={{textAlign:'left',marginLeft:'10px'}}>充值金额</div>
+                <div style={{textAlign:'left',marginLeft:'10px'}} className="mt10">
+                  {
+                    this.state.selectArr.map((v,key)=>{
+                      return <Tag style={{marginRight:'10px'}} onChange={this.onChangeAmount.bind(this,key,v)} selected={v.selected}>{v.amount}</Tag>
+                    })
+                  }
+                  {/* <Tag selected>100</Tag> &nbsp;&nbsp;
+                  <Tag >200</Tag>&nbsp;&nbsp;
+                  <Tag >300</Tag> */}
+                  </div>
+                <div style={{textAlign:'left',marginLeft:'10px'}} className="mt10">合计：¥{this.state.amount}</div>
+                <div style={{marginTop:'32px'}}>
+                   <div onClick={this.onClose2} className="checkBtn" style={{float:'left'}}>取消</div>
+                   <div onClick={this.checkPay} className="checkBtn" style={{float:'right',background:'url(/assets/images/button-lg.jpg) center center / 96px 32px no-repeat'}}>确认充值</div>
                 </div>
                 
           </div>
