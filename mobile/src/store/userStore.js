@@ -164,7 +164,7 @@ class UserStore {
                             Toast.fail('失败！'+error, 1)
                         },
                         async onComplete() {
-                            Toast.fail('失败！', 1)
+                            // Toast.fail('失败！', 1)
                         },
                     })
                 }else{
