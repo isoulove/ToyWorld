@@ -109,7 +109,7 @@ class Detail extends React.Component {
          if(res=='success'){
            Toast.success('充值成功',2)
            _this.onClose2()
-           _this.props.userStore.fetchToyCoinBalance(_this.props.userStore.addr)
+           _this.props.userStore.fetchToyCoinBalance(_this.props.userStore.userInfo.addr)
          }
        })
     }
