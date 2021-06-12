@@ -30,7 +30,7 @@ class Detail extends React.Component {
       const userInfo = this.props.userStore.userInfo
       if(!userInfo.loggedIn){
         this.props.userStore.tools.logIn()
-      }else if(money<1000000000000){
+      }else if(money<100){
         this.setState({modal2:true})
       }else{
         this.setState({modal1:true})
