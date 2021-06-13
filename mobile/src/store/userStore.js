@@ -136,9 +136,6 @@ class UserStore {
     @action
     setUser = (user) => {
         var preLoggedIn = this.userInfo.loggedIn
-        // this.userInfo.addr = user.addr
-        // this.userInfo.loggedIn = user.loggedIn
-        // this.userInfo.cid = user.cid
         this.userInfo = user
         var that = this
         if(preLoggedIn==null&&user.loggedIn){
@@ -155,16 +152,17 @@ class UserStore {
                             
                         },
                         async onSuccess() {
-                            that.fetchToyCoinBalance(user.addr)
-                            that.fetchFlowBalance(user.addr)
                             that.fetchAccountItems(user.addr)
                             Toast.hide()
+                            that.fetchToyCoinBalance(user.addr)
+                            that.fetchFlowBalance(user.addr)
+                            Toast.success('初始化成功！', 1)
                         },
                         onError(error) {
                             Toast.fail('失败！'+error, 1)
                         },
                         async onComplete() {
-                            Toast.success('初始化成功！', 1)
+                            
                         },
                     })
                 }else{
@@ -179,6 +177,18 @@ class UserStore {
             Toast.success('注销成功', 1)
             this.cbBalance = 0
             this.flowBalance = 0
+        }
+    }
+
+    @action
+    fetchAccountItem = (itemID) => {
+        const itemArr = this.toyItems.filter((item) => {
+            return item.itemID == itemID
+        })
+        if(itemArr.length==1){
+            return itemArr[0]
+        }else{
+            return []
         }
     }
 }

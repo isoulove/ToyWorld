@@ -113,7 +113,7 @@ class Home extends React.Component {
                           <div className="avator-box">
                             <img src="assets/images/test.jpg" style={{width:'32px'}} />
                           </div>
-                          <div style={{marginLeft:'8px'}}>@7onder</div>
+                          <div style={{marginLeft:'8px'}}>{product.owner}</div>
                         </div>
                       </div>
                       <div style={{float:'right',verticalAlign:'middle',height:'100%',marginRight:'22px'}}>

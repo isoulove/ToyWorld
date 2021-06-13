@@ -6,6 +6,7 @@ import {GLTFModel,AmbientLight,DirectionLight} from 'react-3d-viewer'
 import { inject, observer } from 'mobx-react'
 import './detail.css';
 @inject('userStore')  
+@inject('marketStore')
 @observer
 class Detail extends React.Component {
 
@@ -18,14 +19,23 @@ class Detail extends React.Component {
         modal1:false,
         modal2:false,
         type:type,
-        width: window.innerWidth*1
+        width: window.innerWidth*1,
+        item: {}
       }
     }
    
     componentDidMount(){
-     
+      const path = this.props.location.pathname
+      const itemID = path.substring(path.lastIndexOf("/")+1)
+      const item = this.props.userStore.fetchAccountItem(itemID)
+      this.setState({item: item})
     }
-   
+
+    toSell = ()=>{
+      const item=this.state.item
+      this.props.marketStore.sell(item.itemID, "100.0")
+    }
+
   render (){
       const {width} = this.state
     return (
@@ -103,7 +113,7 @@ class Detail extends React.Component {
                 分享
               </div>
             </div>
-            <div  onClick={this.toBuy} className="buy-now1" style={{background: 'url(/assets/images/search.jpg) center center / 130px 46px no-repeat',float:'right',marginRight:'21px'}}>
+            <div  onClick={this.toSell} className="buy-now1" style={{background: 'url(/assets/images/search.jpg) center center / 130px 46px no-repeat',float:'right',marginRight:'21px'}}>
                 转卖
             </div>
           </div>

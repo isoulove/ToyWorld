@@ -25,9 +25,12 @@ class MarketStore {
 
     // 是否在售
     @action
-    hasInMarket = (item) => {
-        if(item!=null){
-            return this.marketItems.has(item.itemID)
+    hasInMarket = (itemID) => {
+        const itemArr = this.marketItems.filter((item) => {
+            return item.itemID == itemID
+        })
+        if(itemArr.length==1){
+            return true
         }else{
             return false
         }
@@ -36,9 +39,6 @@ class MarketStore {
     // 卖出NFT
     @action
     sell = (itemID, price, cb) => {
-        //测试
-        // itemID = 3
-        // price = "10.0"
         var that = this
         Toast.loading('正在发布...', 0)
         createSaleOffer(
@@ -48,8 +48,8 @@ class MarketStore {
                     
                 },
                 async onSuccess() {
-                    that.fetchMarketItems()
                     Toast.hide()
+                    that.fetchMarketItems()
                     Toast.success('发布成功！', 1)
                     if(cb) cb("success")
                 },
@@ -67,20 +67,6 @@ class MarketStore {
     // 买入NFT
     @action
     buy = (item, cb) => {
-        // 测试
-        // item = {
-        //     owner: "0xf92eed27ae86ad18",
-        //     itemID: 0,
-        //     typeID: 2,
-        //     author: "0xf92eed27ae86ad18",
-        //     metadata: {
-        //         itemName: "沉思",
-        //         itemDesc: "1",
-        //         totalNum: 1,
-        //         ipfs:"/static/images/products/p1623329015809.png"
-        //     },
-        //     price: "10.00000000"
-        // }
         var that = this
         Toast.loading('正在购买...', 0)
         buyMarketItem(
@@ -92,10 +78,10 @@ class MarketStore {
                 async onSuccess() {
                     that.fetchMarketItems()
                     Toast.hide()
-                    Toast.success('购买成功！', 1)
                     if(cb) cb("success")
                 },
                 async onComplete() {
+                    Toast.success('购买成功！', 1)
                 },
                 async onError(error) {
                     Toast.fail('发布失败：'+error, 2)

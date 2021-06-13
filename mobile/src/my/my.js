@@ -8,6 +8,7 @@ import { inject, observer } from 'mobx-react'
 import * as fcl from "@onflow/fcl"
 
 @inject('userStore')  
+@inject('marketStore') 
 @observer
 class My extends React.Component {
   userInfo = this.props.userStore.userInfo
@@ -41,7 +42,7 @@ class My extends React.Component {
 
   
   render (){
-  	const {userStore} = this.props
+  	const {userStore, marketStore} = this.props
     return (
       <div style={{ background: 'url(assets/images/back.png) center center / 100%  repeat-y',height:'100%'}}>
           <div style={{height:'160px',borderBottom:'1px solid #ddd'}}>
@@ -78,7 +79,8 @@ class My extends React.Component {
             <div className="goodList">
             <div className="list">
                   {userStore.toyItems.map((product,key) => (
-                  <div className="item" onClick={this.goDetail.bind(this,key%2==0?1:2)}>
+                  // <div className="item" onClick={this.goDetail.bind(this,key%2==0?1:2)}>
+                  <div className="item" onClick={this.goDetail.bind(this,product.itemID)}>
                       <div className="item-inner">
                           <div className="img">
                               <img src="assets/images/test.jpg" />
@@ -89,6 +91,9 @@ class My extends React.Component {
                           <div style={{marginTop:'10px'}}>
                             <div style={{float:'left',color:'#E94D5E'}}>
                               <span style={{fontSize:'11px'}}>¥</span>  <span style={{fontSize:'16px'}}>100 CB</span>
+                              <span style={{fontSize:'16px', color: 'blue'}}>{
+                                marketStore.hasInMarket(product.itemID)?" 在售":""
+                              }</span>
                             </div>
                             <div style={{display:'flex',alignItems:'center',float:'right'}}>
                               <div className="avator-box1">
