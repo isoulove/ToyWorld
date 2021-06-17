@@ -50,8 +50,7 @@ class Detail extends React.Component {
 
     componentDidMount(){
       const type=this.state.type
-      const item = this.props.userStore.fetchAccountItem(tmpList[type].itemID)
-      console.log(type,tmpList[type].itemID,item)
+      const item = this.props.marketStore.fetchAccountItem(tmpList[type].itemID)
       this.setState({item: item})
     }
 
@@ -59,7 +58,6 @@ class Detail extends React.Component {
       // 调取接口购买
 
       var buyItem=this.state.item
-      console.log(buyItem)
       const _this = this
       const userInfo = this.props.userStore.userInfo
      

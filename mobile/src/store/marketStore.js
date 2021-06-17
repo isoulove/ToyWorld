@@ -112,6 +112,18 @@ class MarketStore {
             return item.itemID >= 19
         })
     }
+
+    @action
+    fetchAccountItem = (itemID) => {
+        const itemArr = this.marketItems.filter((item) => {
+            return item.itemID == itemID
+        })
+        if(itemArr.length==1){
+            return itemArr[0]
+        }else{
+            return []
+        }
+    }
 }
 
 export default new MarketStore()
