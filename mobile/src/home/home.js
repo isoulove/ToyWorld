@@ -28,7 +28,6 @@ class Home extends React.Component {
   render (){
       const {appStore} = this.props
       const {marketStore} = this.props
-      console.log(this.props)
     return (
       <div style={{padding:'15px 0',background:'url(assets/images/back.png) 100% y-repeat'}}>
           <WingBlank>
