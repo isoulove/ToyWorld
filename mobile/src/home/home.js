@@ -64,7 +64,7 @@ class Home extends React.Component {
               style={{ display: 'inline-block', width: '100%', height: this.state.imgHeight }}
             >
               <img
-                src="assets/images/banner.jpg"
+                src="assets/images/banner1.png"
                 alt=""
                 style={{ width: '100%', verticalAlign: 'top' }}
                 onLoad={() => {
