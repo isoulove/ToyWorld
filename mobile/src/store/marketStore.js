@@ -19,7 +19,7 @@ class MarketStore {
     fetchMarketItems = () => {
         var rs = getRequest('market/collection')
         rs.then(response => {
-            this.marketItems = response.items
+            this.marketItems = this.filterItems(response.items)
         })
     }
 
@@ -104,6 +104,12 @@ class MarketStore {
     get secMarketItems() {
         return this.marketItems.filter((item) => {
             return item.owner != item.author
+        })
+    }
+
+    filterItems = (items) => {
+        return items.filter((item) => {
+            return item.itemID >= 19
         })
     }
 }

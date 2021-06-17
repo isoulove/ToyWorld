@@ -93,7 +93,7 @@ class UserStore {
         var rs = getRequest('toy-items/items/'+address)
         Toast.loading('正在查询...', 0)
         rs.then(response => {
-            this.toyItems = response.items
+            this.toyItems = this.filterItems(response.items)
             Toast.hide()
         }).catch((err) => {
             Toast.fail('失败：'+err, 2)
@@ -190,6 +190,12 @@ class UserStore {
         }else{
             return []
         }
+    }
+
+    filterItems = (items) => {
+        return items.filter((item) => {
+            return item.itemID >= 19
+        })
     }
 }
 
