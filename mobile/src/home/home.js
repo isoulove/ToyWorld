@@ -100,7 +100,7 @@ class Home extends React.Component {
                       </div>
                     </div>
                 </div> */}
-                {marketStore.marketItems.map((product,key) => (
+                {marketStore.priMarketItems.map((product,key) => (
                 <div className="good-box" onClick={this.goodClick.bind(this,key%2==0?1:2)}>
                     <div className="home-good-img-size" style={{}}>
                       <img src="assets/images/1.jpg" style={{width:'100%'}} />

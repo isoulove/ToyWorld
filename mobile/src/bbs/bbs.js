@@ -50,7 +50,7 @@ class Bbs extends React.Component {
       </WingBlank>
      
       <div className="list" style={{marginTop:'10px'}}>
-            {marketStore.marketItems.map((product,key) => (
+            {marketStore.secMarketItems.map((product,key) => (
             <div className="item" onClick={this.goodClick.bind(this,key%2==0?1:2)}>
             <div className="item-inner">
                 <div className="img">
@@ -68,7 +68,7 @@ class Bbs extends React.Component {
                     <div className="avator-box1">
                       <img src="assets/images/ava.jpg" style={{width:'20px'}} />
                     </div>
-                    <div style={{marginLeft:'2px',fontSize:'10px'}}>@7onder</div>
+                    <div style={{marginLeft:'2px',fontSize:'10px'}}>{product.owner}</div>
                   </div>
                 </div>
             </div>

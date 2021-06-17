@@ -90,6 +90,22 @@ class MarketStore {
             }
         )
     }
+
+    // 一级市场
+    @computed
+    get priMarketItems() {
+        return this.marketItems.filter((item) => {
+            return item.owner == item.author
+        })
+    }
+
+    // 二级市场
+    @computed
+    get secMarketItems() {
+        return this.marketItems.filter((item) => {
+            return item.owner != item.author
+        })
+    }
 }
 
 export default new MarketStore()
