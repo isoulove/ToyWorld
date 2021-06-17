@@ -4,6 +4,8 @@ import { Link,withRouter } from 'react-router-dom'
 
 import { inject, observer } from 'mobx-react'
 import './home.css';
+
+import tmpList from '../utils/demoData';
 @inject('appStore')
 @inject('marketStore')
 @observer
@@ -101,23 +103,23 @@ class Home extends React.Component {
                     </div>
                 </div> */}
                 {marketStore.priMarketItems.map((product,key) => (
-                <div className="good-box" onClick={this.goodClick.bind(this,key%2==0?1:2)}>
+                <div className="good-box" onClick={this.goodClick.bind(this,product.typeID)}>
                     <div className="home-good-img-size" style={{}}>
-                      <img src="assets/images/1.jpg" style={{width:'100%'}} />
+                      <img src={tmpList[key]['face']} style={{width:'100%'}} />
                     </div>
                     <div style={{height:'99px',backgroundColor:'#fff'}}>
                       <div style={{float:'left',width:'70%',marginTop:'10px',paddingLeft:'16px'}}>
-                        <div style={{fontSize:'20px',fontWeight:500,lineHeight:'21px'}}>摩尔庄园：吉比特</div>
+                        <div style={{fontSize:'20px',fontWeight:500,lineHeight:'21px'}}>{tmpList[key]['title']}</div>
                         <div style={{display:'flex',marginTop:'10px',alignItems:'center'}}>
                           <div className="avator-box">
-                            <img src="assets/images/test.jpg" style={{width:'32px'}} />
+                            <img src="/assets/images/test.jpg" style={{width:'32px'}} />
                           </div>
-                          <div style={{marginLeft:'8px'}}>{product.owner}</div>
+                          <div style={{marginLeft:'8px'}}>{tmpList[key]['author']}</div>
                         </div>
                       </div>
                       <div style={{float:'right',verticalAlign:'middle',height:'100%',marginRight:'22px'}}>
                         <div className="buy-button"> <Link to='/detail' style={{color:'#FFA71C'}}>购买</Link> </div>
-                        <div style={{marginTop:'5px',fontSize:'11px',lineHeight:'20px',fontWeight:400,color:'rgba(53, 53, 53, 0.5)'}}>100 CB</div>
+                        <div style={{marginTop:'5px',fontSize:'11px',lineHeight:'20px',fontWeight:400,color:'rgba(53, 53, 53, 0.5)'}}>{tmpList[key]['price']} CB</div>
                       </div>
                     </div>
                 </div>

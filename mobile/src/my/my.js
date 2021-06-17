@@ -4,6 +4,7 @@ import { Toast } from 'antd-mobile';
 import { withRouter } from 'react-router-dom'
 
 import { inject, observer } from 'mobx-react'
+import tmpList from '../utils/demoData';
 
 import * as fcl from "@onflow/fcl"
 
@@ -80,17 +81,17 @@ class My extends React.Component {
             <div className="list">
                   {userStore.toyItems.map((product,key) => (
                   // <div className="item" onClick={this.goDetail.bind(this,key%2==0?1:2)}>
-                  <div className="item" onClick={this.goDetail.bind(this,product.itemID)}>
+                  <div className="item" onClick={this.goDetail.bind(this,product.typeID)}>
                       <div className="item-inner">
                           <div className="img">
-                              <img src="assets/images/test.jpg" />
+                              <img src={tmpList[product.typeID-1].face} />
                           </div>
                           <div className="title">
-                            摩尔庄园：吉比特炒行星星球潮玩
+                            {tmpList[product.typeID-1].title}
                           </div>
                           <div style={{marginTop:'10px'}}>
                             <div style={{float:'left',color:'#E94D5E'}}>
-                              <span style={{fontSize:'11px'}}>¥</span>  <span style={{fontSize:'16px'}}>100 CB</span>
+                              <span style={{fontSize:'11px'}}>¥</span>  <span style={{fontSize:'16px'}}>{tmpList[product.typeID-1].price} CB</span>
                               <span style={{fontSize:'16px', color: 'blue'}}>{
                                 marketStore.hasInMarket(product.itemID)?" 在售":""
                               }</span>
@@ -99,7 +100,7 @@ class My extends React.Component {
                               <div className="avator-box1">
                                 <img src="assets/images/ava.jpg" style={{width:'20px'}} />
                               </div>
-                              <div style={{marginLeft:'2px',fontSize:'10px'}}>@7onder</div>
+                              <div style={{marginLeft:'2px',fontSize:'10px'}}>@{tmpList[product.typeID-1].author}</div>
                             </div>
                           </div>
                       </div>

@@ -5,6 +5,8 @@ import {GLTFModel,AmbientLight,DirectionLight} from 'react-3d-viewer'
 
 import { inject, observer } from 'mobx-react'
 import './detail.css';
+import tmpList from '../utils/demoData';
+
 @inject('userStore')
 @inject('marketStore')
 @observer
@@ -12,8 +14,8 @@ class Detail extends React.Component {
 
     constructor(props){
       super()
-      let type = props.match.params.type || 0
-      type = parseInt(type)
+      let type = props.match.params.type || 1
+      type = parseInt(type)-1
       this.state = {
         buy:false,
         modal1:false,
@@ -21,7 +23,8 @@ class Detail extends React.Component {
         type:type,
         selectArr:[{amount:100,selected:false},{amount:200,selected:true},{amount:300,selected:false}],
         amount:200,
-        width: window.innerWidth*1
+        width: window.innerWidth*1,
+        item:{}
       }
     }
    
@@ -46,17 +49,20 @@ class Detail extends React.Component {
     }
 
     componentDidMount(){
-     
+      const type=this.state.type
+      const item = this.props.userStore.fetchAccountItem(tmpList[type].itemID)
+      console.log(type,tmpList[type].itemID,item)
+      this.setState({item: item})
     }
 
     buyOk = ()=>{
       // 调取接口购买
-      var buyItem=null
+
+      var buyItem=this.state.item
+      console.log(buyItem)
       const _this = this
       const userInfo = this.props.userStore.userInfo
-      this.props.marketStore.marketItems.map((saleItem)=>{
-        buyItem = saleItem
-      })
+     
       if(buyItem!=null) {
         this.props.marketStore.buy(buyItem, function(res){
           if(res=='success'){
@@ -116,7 +122,7 @@ class Detail extends React.Component {
 
    
   render (){
-      const {width} = this.state
+      const {width,type} = this.state
     return (
       <div style={{padding:'0 0 90px 0'}}>
           <div className="top-nav" onClick={() => this.props.history.goBack()} >
@@ -133,8 +139,6 @@ class Detail extends React.Component {
                 <div style={{minHeight:'239px'}}>
                   {
                     this.state.type==1?
-                    <img src="/assets/images/1.jpg" style={{width:'100%'}} />
-                    :this.state.type==2?
                     <GLTFModel
                       src="/assets/scene.gltf"
                       position={{x:0,y:-160,z:0}}
@@ -148,36 +152,43 @@ class Detail extends React.Component {
                       <DirectionLight color={0xffffff} position={{x:100,y:200,z:100}}/>
                       <DirectionLight color={0xff00ff} position={{x:-100,y:100,z:-100}}/>
                     </GLTFModel>
-                    :''
+                    :<img src={tmpList[type].img} style={{width:'100%'}} />
 
                   }
                     
                 </div>
                 <div className="bkc-fff" style={{height:'85px',borderBottom:'1px solid #C4C4C4'}}>
                     <div style={{float:'left',width:'70%',marginTop:'10px',paddingLeft:'16px'}}>
-                    <div style={{fontSize:'20px',fontWeight:500,lineHeight:'21px'}}>摩尔庄园：吉比特</div>
+                    <div style={{fontSize:'20px',fontWeight:500,lineHeight:'21px'}}>{tmpList[type].title}</div>
                     <div style={{display:'flex',marginTop:'10px',alignItems:'center'}}>
                         <div className="avator-box">
                         <img src="/assets/images/ava.jpg" style={{width:'32px'}} />
                         </div>
-                        <div style={{marginLeft:'8px'}}>@7onder</div>
+                        <div style={{marginLeft:'8px'}}>@{tmpList[type].author}</div>
                     </div>
                     </div>
                     <div style={{float:'right',verticalAlign:'middle',height:'100%',marginRight:'22px',marginTop:'35px'}}>
-                        <span style={{color:'#FFA71C',fontSize:'22px',fontWeight:700}}>100</span>&nbsp;
+                        <span style={{color:'#FFA71C',fontSize:'22px',fontWeight:700}}>{tmpList[type].price}</span>&nbsp;
                         <span style={{lineHeight:'20px',fontWeight:500,color:'#353535'}}>CB</span>
                     </div>
                 </div>
 
                 <div className="bkc-fff" style={{minHeight:'100px',padding:'30px 16px 20px 16px'}}>
-                    <div className="title-intro">一些介绍</div>
-                    <div className="title-desc" style={{}}>
-                        该卡可激活一个假日系列的一个卡槽。激活卡永久有效，且可与比他人交换
-                        </div>
-                    <div className="title-intro" style={{marginTop:'20px'}}>注意事项</div>
-                    <div  className="title-desc">
-                        该卡可激活一个假日系列的一个卡槽。激活卡永久有效，且可与比他人交换
-                        </div>
+                  {
+                    tmpList[type].desc.map((v,k)=>(
+                      <div>
+                        <div className="title-intro">{v.title}</div>
+                        {
+                          v.content.map(v=>(
+                            <div className="title-desc">
+                              {v}
+                            </div>
+                          ))
+                        }
+                      </div>
+                    ))
+                  }
+                    
                 </div>
             </div>
           {/* 这是首页: 数字{appStore.num}
@@ -201,8 +212,8 @@ class Detail extends React.Component {
         //   afterClose={() => { alert('afterClose'); }}
         >
           <div style={{ minHeight: 100}}>
-                <div className="mt10">价格：100CB</div>
-                <div className="mt10">潮玩名称#21</div>
+                <div className="mt10">价格：{tmpList[type].price}CB</div>
+                <div className="mt10">潮玩名称：{tmpList[type].title}</div>
                 <div className="mt10">数量：1</div>
                 <div style={{marginTop:'32px'}}>
                    <div onClick={this.onClose} className="checkBtn" style={{float:'left'}}>取消</div>
