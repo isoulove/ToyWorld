@@ -28,9 +28,9 @@ class My extends React.Component {
     })
   }
 
-  goDetail = (e)=>{
+  goDetail = (e,e2)=>{
     this.props.history.push({
-      pathname: '/my/detail/'+e
+      pathname: '/my/detail/'+e+"/"+e2
     });
   }
 
@@ -81,7 +81,7 @@ class My extends React.Component {
             <div className="list">
                   {userStore.toyItems.map((product,key) => (
                   // <div className="item" onClick={this.goDetail.bind(this,key%2==0?1:2)}>
-                  <div className="item" onClick={this.goDetail.bind(this,product.typeID)}>
+                  <div className="item" onClick={this.goDetail.bind(this,product.typeID,product.itemID)}>
                       <div className="item-inner">
                           <div className="img">
                               <img src={tmpList[product.typeID-1].face} />

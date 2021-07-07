@@ -8,7 +8,7 @@ const tmpList = [
       face:'/assets/images/pro1.png',
       img:'/assets/images/pro1-1.png',
       author:'机械工坊',
-      itemID:19
+      itemID:22
     },
     {
       price:50,

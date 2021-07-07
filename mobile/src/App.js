@@ -17,8 +17,8 @@ class App extends React.Component {
       <div id="App" style={{padding:'0 0'}}>
        <Switch>
             <Route path='/' exact component={Main}/>
-            <Route path={`/detail/:type`} component={Detail}/>
-            <Route path={`/my/detail/:type`} component={MyBuyDetail}/>
+            <Route path={`/detail/:type/:itemID`} component={Detail}/>
+            <Route path={`/my/detail/:type/:itemID`} component={MyBuyDetail}/>
             <Redirect exact from={'/'} to={'/find'}/>
         </Switch>
       </div>

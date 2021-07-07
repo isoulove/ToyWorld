@@ -20,9 +20,9 @@ class Home extends React.Component {
     data: ['1', '2', '3'],
   }
 
-  goodClick = (e)=>{
+  goodClick = (e,e2)=>{
     this.props.history.push({
-        pathname: '/detail/'+e
+        pathname: '/detail/'+e+'/'+e2
       });
 }
 
@@ -103,23 +103,23 @@ class Home extends React.Component {
                     </div>
                 </div> */}
                 {marketStore.priMarketItems.map((product,key) => (
-                <div className="good-box" onClick={this.goodClick.bind(this,product.typeID)}>
+                <div className="good-box" onClick={this.goodClick.bind(this,product.typeID,product.itemID)}>
                     <div className="home-good-img-size" style={{}}>
-                      <img src={tmpList[key]['face']} style={{width:'100%'}} />
+                      <img src={tmpList[product.typeID-1]['face']} style={{width:'100%'}} />
                     </div>
                     <div style={{height:'99px',backgroundColor:'#fff'}}>
                       <div style={{float:'left',width:'70%',marginTop:'10px',paddingLeft:'16px'}}>
-                        <div style={{fontSize:'20px',fontWeight:500,lineHeight:'21px'}}>{tmpList[key]['title']}</div>
+                        <div style={{fontSize:'20px',fontWeight:500,lineHeight:'21px'}}>{tmpList[product.typeID-1]['title']}</div>
                         <div style={{display:'flex',marginTop:'10px',alignItems:'center'}}>
                           <div className="avator-box">
                             <img src="/assets/images/test.jpg" style={{width:'32px'}} />
                           </div>
-                          <div style={{marginLeft:'8px'}}>{tmpList[key]['author']}</div>
+                          <div style={{marginLeft:'8px'}}>{tmpList[product.typeID-1]['author']}</div>
                         </div>
                       </div>
                       <div style={{float:'right',verticalAlign:'middle',height:'100%',marginRight:'22px'}}>
                         <div className="buy-button"> <Link to='/detail' style={{color:'#FFA71C'}}>购买</Link> </div>
-                        <div style={{marginTop:'5px',fontSize:'11px',lineHeight:'20px',fontWeight:400,color:'rgba(53, 53, 53, 0.5)'}}>{tmpList[key]['price']} CB</div>
+                        <div style={{marginTop:'5px',fontSize:'11px',lineHeight:'20px',fontWeight:400,color:'rgba(53, 53, 53, 0.5)'}}>{tmpList[product.typeID-1]['price']} CB</div>
                       </div>
                     </div>
                 </div>

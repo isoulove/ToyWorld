@@ -14,12 +14,14 @@ class Detail extends React.Component {
     constructor(props){
       super()
       let type = props.match.params.type || 0
+      let itemID = props.match.params.itemID || 0
       type = parseInt(type)-1
       this.state = {
         buy:false,
         modal1:false,
         modal2:false,
         type:type,
+        itemID:itemID,
         width: window.innerWidth*1,
         item: {}
       }
@@ -34,7 +36,9 @@ class Detail extends React.Component {
 
     toSell = ()=>{
       const type=this.state.type
-      this.props.marketStore.sell(tmpList[type].itemID, "100.0")
+      const itemID=this.state.itemID
+      //tmpList[type].itemID
+      this.props.marketStore.sell(itemID, "100.0")
     }
 
   render (){

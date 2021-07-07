@@ -15,12 +15,14 @@ class Detail extends React.Component {
     constructor(props){
       super()
       let type = props.match.params.type || 1
+      let itemID = props.match.params.itemID || 0
       type = parseInt(type)-1
       this.state = {
         buy:false,
         modal1:false,
         modal2:false,
         type:type,
+        itemID:itemID,
         selectArr:[{amount:100,selected:false},{amount:200,selected:true},{amount:300,selected:false}],
         amount:200,
         width: window.innerWidth*1,
@@ -50,7 +52,9 @@ class Detail extends React.Component {
 
     componentDidMount(){
       const type=this.state.type
-      const item = this.props.marketStore.fetchAccountItem(tmpList[type].itemID)
+      const itemID=this.state.itemID
+      //tmpList[type].itemID
+      const item = this.props.marketStore.fetchAccountItem(itemID)
       this.setState({item: item})
     }
 
