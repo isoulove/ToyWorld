@@ -60,16 +60,16 @@ class ToyItemsService {
         fcl.withPrefix(this.nonFungibleTokenAddress)
       )
       .replace(toyItemsPath, fcl.withPrefix(this.toyItemsAddress));
-      if(metadata["fileObjects"][0].data&&metadata["fileObjects"][0].data.length>0){
-        let rtObj = this.fileService.setUploadImg(metadata["fileObjects"][0].data);
-        if (rtObj.code=="100") {
-          delete metadata["fileObjects"]
-          metadata["ipfs"] = rtObj.url;
-        }
-      }else{
-        delete metadata["fileObjects"]
-        metadata["ipfs"] = "";
-      }
+      // if(metadata["fileObjects"][0].data&&metadata["fileObjects"][0].data.length>0){
+      //   let rtObj = this.fileService.setUploadImg(metadata["fileObjects"][0].data);
+      //   if (rtObj.code=="100") {
+      //     delete metadata["fileObjects"]
+      //     metadata["ipfs"] = rtObj.url;
+      //   }
+      // }else{
+      //   delete metadata["fileObjects"]
+      //   metadata["ipfs"] = "";
+      // }
       
       return this.flowService.sendTx({
         transaction,
