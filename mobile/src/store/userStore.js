@@ -21,6 +21,22 @@ class UserStore {
   // 账户NFT集合
   @observable toyItems = []
 
+  // 我购买的
+  @computed
+  get myBuyItems() {
+    return this.toyItems.filter((item) => {
+      return item.owner != item.author
+    })
+  }
+
+  // 我发布的
+  @computed
+  get myPubItems() {
+    return this.toyItems.filter((item) => {
+      return item.owner == item.author
+    })
+  }
+
   tools = {
     // 登陆
     logIn: () => {
@@ -127,7 +143,12 @@ class UserStore {
       storeFiles(metadata.files).then(cid => {
         const nftMeta = Object.assign({}, metadata, {
           files: metadata.files.map(item => {
-            return item.name
+            const pos = item.name.lastIndexOf('.')
+
+            return {
+              name: item.name,
+              fileType: item.name.substr(pos)
+            }
           }),
           ipfs: cid
         })
