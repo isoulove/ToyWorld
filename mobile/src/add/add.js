@@ -1,19 +1,18 @@
 import React from 'react'
-import {WhiteSpace,Icon,Modal,Toast,Tag,TextareaItem,List, Stepper } from 'antd-mobile';
+import {WhiteSpace,Icon,Modal,Toast,Tag,TextareaItem,InputItem, Stepper } from 'antd-mobile';
 import { NFTStorage, Blob,File } from 'nft.storage'
 import { inject, observer } from 'mobx-react'
 
 import {DAEModel,JSONModel,OBJModel,Tick,MTLModel,GLTFModel,AmbientLight,DirectionLight} from 'react-3d-viewer'
 // import 'antd-mobile/dist/antd-mobile.css'; 
 import './add.css'; 
-import tmpList from '../utils/demoData';
 @inject('userStore')  
 @observer
 class Add extends React.Component {
   userInfo = this.props.userStore.userInfo
   state = {
-    val:35,
-    val1:1,
+    price:35,
+    num:1,
     buy:false,
     modal1:false,
     modal2:false,
@@ -24,14 +23,7 @@ class Add extends React.Component {
     fileType:'',
     cid:''
   }
-  onChange = (val) => {
-    // console.log(val);
-    this.setState({ val });
-  }
-  onChange1 = (val1) => {
-    // console.log(val);
-    this.setState({ val1 });
-  }
+  
 
 
   toWallet = ()=>{
@@ -62,6 +54,23 @@ class Add extends React.Component {
 //发布
 toPub = ()=>{
 
+}
+
+setDesc = (e)=>{
+  console.log(e)
+}
+
+setTitle = (e)=>{
+  console.log(e)
+}
+
+onChange = (val) => {
+  // console.log(val);
+  this.setState({ price:val });
+}
+onChange1 = (val1) => {
+  // console.log(val);
+  this.setState({ num:val1 });
 }
 
   componentDidMount() {
@@ -104,7 +113,7 @@ toPub = ()=>{
            
           </div>
         </div>
-        <div className={this.state.showNext?'show':'hidden'} style={{padding:'0 0 90px 0'}}>
+        <div className={this.state.showNext?'show':'show'} style={{padding:'0 0 90px 0'}}>
           {/* <div className="top-nav" onClick={() => this.props.history.goBack()} >
             <Icon type="left"  size="lg" color="#ddd" />
           </div> */}
@@ -160,9 +169,14 @@ toPub = ()=>{
                     
                 </div>
                 <div className="bkc-fff" style={{minHeight:'80px',borderBottom:'1px solid #C4C4C4',paddingTop:'5px'}}>
+                <InputItem
+                  placeholder="输入NFT名称..."
+                  onChange={this.setTitle}
+                />
                 <TextareaItem
                   rows={2}
                   placeholder="描述一下这款NFT..."
+                  onChange={this.setDesc}
                 />
                 </div>
 
@@ -172,9 +186,8 @@ toPub = ()=>{
                     <Stepper
                           style={{  minWidth: '100px',float:'right',height:'32px' }}
                           showNumber
-                          // max={10}
                           min={1}
-                          value={this.state.val}
+                          value={this.state.price}
                           onChange={this.onChange}
                         />
 
@@ -184,9 +197,8 @@ toPub = ()=>{
                     <Stepper
                           style={{  minWidth: '100px',float:'right',height:'32px',maxWidth:'300px' }}
                           showNumber
-                          // max={10}
                           min={1}
-                          value={this.state.val1}
+                          value={this.state.num}
                           onChange={this.onChange1}
                         />
                   </div>
