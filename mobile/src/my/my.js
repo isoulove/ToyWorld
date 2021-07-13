@@ -65,7 +65,7 @@ class My extends React.Component {
             </div>
 
             <div style={{padding:'30px 54px 10px 54px'}}>
-                <div style={{marginLeft:'15px',float:'left',color:'#FFA71C',fontSize:'14px',fontWeight:400,lineHeight:'22px'}}>我的购买（{userStore.toyItems.length}）</div>
+                <div style={{marginLeft:'15px',float:'left',color:'#FFA71C',fontSize:'14px',fontWeight:400,lineHeight:'22px'}}>我的购买（{userStore.myBuyItems.length}）</div>
                 <div style={{marginRight:'15px',float:'right',fontSize:'14px',fontWeight:400,lineHeight:'22px'}}>我发布的（0）</div>
             </div>
           </div>
@@ -79,7 +79,7 @@ class My extends React.Component {
             :
             <div className="goodList">
             <div className="list">
-                  {userStore.toyItems.map((product,key) => (
+                  {userStore.myBuyItems.map((product,key) => (
                   // <div className="item" onClick={this.goDetail.bind(this,key%2==0?1:2)}>
                   <div className="item" onClick={this.goDetail.bind(this,product.typeID,product.itemID)}>
                       <div className="item-inner">
