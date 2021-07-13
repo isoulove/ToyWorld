@@ -1,40 +1,44 @@
 import React from 'react'
 import {WhiteSpace,Icon,Modal,Toast,Tag,TextareaItem,List, Stepper } from 'antd-mobile';
 import { NFTStorage, Blob,File } from 'nft.storage'
+import { inject, observer } from 'mobx-react'
+
 import {DAEModel,JSONModel,OBJModel,Tick,MTLModel,GLTFModel,AmbientLight,DirectionLight} from 'react-3d-viewer'
 // import 'antd-mobile/dist/antd-mobile.css'; 
 import './add.css'; 
 import tmpList from '../utils/demoData';
-
+@inject('userStore')  
+@observer
 class Add extends React.Component {
-  constructor(props){
-    super()
-    let type = 1
-    let itemID = 1
-    type = parseInt(type)-1
-    this.state = {
-      val:35,
-      val1:1,
-      buy:false,
-      modal1:false,
-      modal2:false,
-      type:type,
-      itemID:itemID,
-      selectArr:[{amount:100,selected:false},{amount:200,selected:true},{amount:300,selected:false}],
-      amount:200,
-      width: window.innerWidth*1,
-      item:{},
-      fileType:'',
-      cid:''
-    }
+  userInfo = this.props.userStore.userInfo
+  state = {
+    val:35,
+    val1:1,
+    buy:false,
+    modal1:false,
+    modal2:false,
+    amount:200,
+    width: window.innerWidth*1,
+    showAdd: this.userInfo.addr!=null,
+    item:{},
+    fileType:'',
+    cid:''
   }
   onChange = (val) => {
     // console.log(val);
     this.setState({ val });
   }
-  onChange = (val1) => {
+  onChange1 = (val1) => {
     // console.log(val);
     this.setState({ val1 });
+  }
+
+
+  toWallet = ()=>{
+    //连接钱包操作，获取商品列表
+    this.props.userStore.tools.logIn()
+    //Toast.success('连接成功！', 2);
+    // this.setState({showList:true,buyNum:2})
   }
 
   getFile = async(e)=>{
@@ -72,7 +76,7 @@ toPub = ()=>{
 
   
   render (){
-    const {width,type} = this.state
+    const {width,showAdd} = this.state
     return (
       <div style={{height:'100%'}}>
         <div className={!this.state.showNext?'show':'hidden'} style={{ textAlign:'center',backgroundColor:'white',padding:'10px 40px',height:'100%' }}>
@@ -83,12 +87,21 @@ toPub = ()=>{
           </div>
 
           <div style={{marginTop:'20px'}}>
-            <label for="chooseFile">
+            {
+              showAdd?
+              <label for="chooseFile">
               <div className="choose" style={{background: 'url(/assets/images/button-lg.jpg) center center / 280px 46px no-repeat'}}>
                   从本地选择文件...
               </div>
-            </label>
             <input type="file" id="chooseFile" style={{display:'none'}} onChange={this.getFile} />
+
+            </label>
+            :
+            <div onClick={this.toWallet} className="choose" style={{background: 'url(/assets/images/button-lg.jpg) center center / 280px 46px no-repeat'}}>
+              从本地选择文件...
+            </div>
+            }
+           
           </div>
         </div>
         <div className={this.state.showNext?'show':'hidden'} style={{padding:'0 0 90px 0'}}>
