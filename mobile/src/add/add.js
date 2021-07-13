@@ -2,7 +2,7 @@ import React from 'react'
 import {WhiteSpace,Icon,Modal,Toast,Tag,TextareaItem,InputItem, Stepper } from 'antd-mobile';
 import { NFTStorage, Blob,File } from 'nft.storage'
 import { inject, observer } from 'mobx-react'
-
+import {storeFiles} from '../utils/IPFSUtil'
 import {DAEModel,JSONModel,OBJModel,Tick,MTLModel,GLTFModel,AmbientLight,DirectionLight} from 'react-3d-viewer'
 // import 'antd-mobile/dist/antd-mobile.css'; 
 import './add.css'; 
@@ -20,6 +20,8 @@ class Add extends React.Component {
     width: window.innerWidth*1,
     showAdd: this.userInfo.addr!=null,
     item:{},
+    desc:'',
+    title:'',
     fileType:'',
     cid:''
   }
@@ -30,7 +32,7 @@ class Add extends React.Component {
     //连接钱包操作，获取商品列表
     this.props.userStore.tools.logIn()
     //Toast.success('连接成功！', 2);
-    // this.setState({showList:true,buyNum:2})
+    this.setState({showAdd:this.props.userStore.userInfo.addr !=null})
   }
 
   getFile = async(e)=>{
@@ -38,12 +40,15 @@ class Add extends React.Component {
     const file = e.target.files[0]
     let b = file.name.substr(file.name.lastIndexOf(".") + 1);
     this.setState({fileType:b.toLowerCase()})
-    const apiKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweERiZTlDNzFhNzcwRjkxMGQ2NzdjRURkMkVjMGZGZGZCZDA1ZWMxZDkiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTYyNTk5MTExNzk0MywibmFtZSI6InRveVdvcmxkIn0.eXn_GY64KAj7uGWiSibpjwxlTh8Rf_dRsudAX_9LkMI"
+    // const apiKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweERiZTlDNzFhNzcwRjkxMGQ2NzdjRURkMkVjMGZGZGZCZDA1ZWMxZDkiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTYyNTk5MTExNzk0MywibmFtZSI6InRveVdvcmxkIn0.eXn_GY64KAj7uGWiSibpjwxlTh8Rf_dRsudAX_9LkMI"
       try{
-        const client = new NFTStorage({ token: apiKey })
-        const cid = await client.storeBlob(new Blob(e.target.files));
-        this.setState({cid:cid,showNext:true})
-        Toast.hide()
+        // const client = new NFTStorage({ token: apiKey })
+        const r = storeFiles(e.target.files)
+        r.then((res)=>{
+          this.setState({cid:res,showNext:true})
+          Toast.hide()
+        })
+        // const cid = await client.storeBlob(new Blob(e.target.files));
       } catch(err){
         Toast.hide()
         Toast.fail('网络错误：'+err.message)
@@ -53,24 +58,41 @@ class Add extends React.Component {
 }
 //发布
 toPub = ()=>{
-
+  const {price,desc,cid,title,num,fileType} = this.state
+  console.log(price,num)
+  if(!cid){
+    Toast.fail('请上传文件')
+    return;
+  }
+  if(!desc || !title){
+    Toast.fail('请输入名称和描述')
+    return;
+  }
+  if(!price || !num){
+    Toast.fail('请选择价格和数量')
+    return;
+  }
+  this.userStore.mintToyItems(
+    {price,desc,cid,title,num,fileType},
+    this.props.userStore.userInfo.addr
+    )
 }
 
 setDesc = (e)=>{
-  console.log(e)
+  this.setState({desc:e})
 }
 
 setTitle = (e)=>{
-  console.log(e)
+  this.setState({title:e})
 }
 
 onChange = (val) => {
   // console.log(val);
-  this.setState({ price:val });
+  this.setState({ price:parseFloat(val) });
 }
 onChange1 = (val1) => {
   // console.log(val);
-  this.setState({ num:val1 });
+  this.setState({ num:parseInt(val1) });
 }
 
   componentDidMount() {
@@ -78,11 +100,8 @@ onChange1 = (val1) => {
   }
 
   componentWillReceiveProps(props){
-    this.setState({showNext:false})
+    this.setState({showNext:false,cid:''})
   }
-
-  
-
   
   render (){
     const {width,showAdd} = this.state
@@ -113,7 +132,7 @@ onChange1 = (val1) => {
            
           </div>
         </div>
-        <div className={this.state.showNext?'show':'show'} style={{padding:'0 0 90px 0'}}>
+        <div className={this.state.showNext?'show':'hidden'} style={{padding:'0 0 90px 0'}}>
           {/* <div className="top-nav" onClick={() => this.props.history.goBack()} >
             <Icon type="left"  size="lg" color="#ddd" />
           </div> */}
