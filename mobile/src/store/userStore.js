@@ -110,7 +110,12 @@ class UserStore {
     var rs = getRequest('toy-items/items/' + address)
     Toast.loading('正在查询...', 0)
     rs.then(response => {
-      response.items = response.items.map(item => Object.assign({}, item, {metadata: JSON.parse(item.metadata)}))
+      response.items = response.items.map(item => 
+        {
+          const metadata = JSON.parse(item.metadata)
+          return Object.assign({}, item, {price: metadata.price}, {metadata: metadata})
+        }
+      )
       this.toyItems = this.filterItems(response.items)
       Toast.hide()
     }).catch((err) => {
@@ -275,7 +280,7 @@ class UserStore {
 
   filterItems = (items) => {
     return items.filter((item) => {
-      return item.itemID >= 19
+      return item.itemID >= 47
     })
   }
 }
