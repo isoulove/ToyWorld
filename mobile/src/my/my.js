@@ -18,6 +18,7 @@ class My extends React.Component {
     userInfo: this.userInfo, 
     buyNum: this.props.userStore.toyItems.length,
     show:0,
+    width:(window.innerWidth*1)/2,
   }
 
   changeShow = (e)=>{
@@ -91,7 +92,7 @@ class My extends React.Component {
                   <div className="item" key={key} onClick={this.goDetail.bind(this,product.typeID,product.itemID)}>
                       <div className="item-inner">
                           <div className="img">
-                          <ShowImg cid={product.metadata.cid} fileType={product.metadata.fileType} />
+                          <ShowImg cid={product.metadata.cid} fileType={product.metadata.fileType} width={this.state.width} />
                           </div>
                           <div className="title">
                             {product.metadata.title}
@@ -119,7 +120,7 @@ class My extends React.Component {
                     <div className="item" key={key} onClick={this.goDetail.bind(this,product.typeID,product.itemID)}>
                         <div className="item-inner">
                             <div className="img">
-                            <ShowImg cid={product.metadata.cid} fileType={product.metadata.fileType} />
+                            <ShowImg cid={product.metadata.cid} fileType={product.metadata.fileType}  width={this.state.width} />
                             </div>
                             <div className="title">
                               {product.metadata.title}

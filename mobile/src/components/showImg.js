@@ -9,26 +9,25 @@ class ShowImg extends React.Component {
     this.state = {
       cid:props.cid,
       fileType:props.fileType,
-      width: (window.innerWidth*1)/2,
+      width: props.width,
     }
-    console.log(window.innerWidth*1,'w')
   }
    
   componentDidMount(){
-      console.log(this.state)
+      // console.log(this.state)
     }
 
   componentWillReceiveProps(newProps){
     this.setState ({
       cid:newProps.cid,
       fileType:newProps.fileType,
-      width: (window.innerWidth*1)/2,
+      width: newProps.width,
     })
   }
    
 
   render (){
-    console.log(this.state)
+    // console.log(this.state)
     return (
       <div>
         {
