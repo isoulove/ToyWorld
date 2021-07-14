@@ -143,6 +143,12 @@ class UserStore {
     let maxId=0
     rs = await getRequest('toy-items/items/' + address)
     if(rs.items) {
+      rs.items = rs.items.map(item => 
+        {
+          const metadata = JSON.parse(item.metadata)
+          return Object.assign({}, item, {price: metadata.price}, {metadata: metadata})
+        }
+      )
       this.toyItems = this.filterItems(rs.items)
       const ids = this.toyItems.map(item => item.itemID)
       maxId = Math.max.apply(null, ids)
