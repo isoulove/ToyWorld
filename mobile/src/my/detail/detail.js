@@ -3,7 +3,7 @@ import {WhiteSpace,Icon,Modal,Toast,Tag } from 'antd-mobile';
 import {GLTFModel,AmbientLight,DirectionLight} from 'react-3d-viewer'
 // import {withRouter } from 'react-router-dom'
 import tmpList from '../../utils/demoData';
-
+import ShowImg from '../../components/showImg';
 import { inject, observer } from 'mobx-react'
 import './detail.css';
 @inject('userStore')  
@@ -30,19 +30,22 @@ class Detail extends React.Component {
     componentDidMount(){
       // const path = this.props.location.pathname
       // const itemID = path.substring(path.lastIndexOf("/")+1)
-      // const item = this.props.userStore.fetchAccountItem(itemID)
-      // this.setState({item: item})
+      const item = this.props.userStore.fetchAccountItem(this.state.itemID)
+      console.log(item,'111')
+      
+      
     }
 
     toSell = ()=>{
-      const type=this.state.type
+      // const type=this.state.type
       const itemID=this.state.itemID
       //tmpList[type].itemID
       this.props.marketStore.sell(itemID, "100.0")
     }
 
   render (){
-      const {width,type} = this.state
+      const {width,type,item} = this.state
+       console.log(item,'333')
     return (
       <div style={{padding:'0 0 90px 0'}}>
           <div className="top-nav" onClick={() => this.props.history.goBack()} >

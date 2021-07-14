@@ -1,5 +1,7 @@
 import React from 'react'
 import {WhiteSpace,Icon,Modal,Toast,Tag,TextareaItem,InputItem, Stepper } from 'antd-mobile';
+import { withRouter } from 'react-router-dom'
+
 import { NFTStorage, Blob,File } from 'nft.storage'
 import { inject, observer } from 'mobx-react'
 import {storeFiles} from '../utils/IPFSUtil'
@@ -39,13 +41,15 @@ class Add extends React.Component {
     Toast.loading('加载中...',30)
     const file = e.target.files[0]
     let b = file.name.substr(file.name.lastIndexOf(".") + 1);
-    this.setState({fileType:b.toLowerCase()})
+    // this.setState({fileType:b.toLowerCase()})
     // const apiKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweERiZTlDNzFhNzcwRjkxMGQ2NzdjRURkMkVjMGZGZGZCZDA1ZWMxZDkiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTYyNTk5MTExNzk0MywibmFtZSI6InRveVdvcmxkIn0.eXn_GY64KAj7uGWiSibpjwxlTh8Rf_dRsudAX_9LkMI"
       try{
         // const client = new NFTStorage({ token: apiKey })
         const r = storeFiles(e.target.files)
+        // this.setState({cid:cid,showNext:true})
         r.then((res)=>{
-          this.setState({cid:res,showNext:true})
+        console.log(res,b)
+          this.setState({cid:res,showNext:true,fileType:b.toLowerCase()})
           Toast.hide()
         })
         // const cid = await client.storeBlob(new Blob(e.target.files));
@@ -72,9 +76,13 @@ toPub = ()=>{
     Toast.fail('请选择价格和数量')
     return;
   }
+  const _this = this
   this.props.userStore.mintToyItems(
     {price,desc,cid,title,num,fileType},
-    this.props.userStore.userInfo.addr
+    this.props.userStore.userInfo.addr,
+    function(res){
+      _this.props.history.push('/')
+    }
     )
 }
 
@@ -148,7 +156,7 @@ onChange1 = (val1) => {
                   {
                     this.state.fileType=='gltf'?
                     <GLTFModel
-                      src="/assets/scene.gltf"
+                      src={`https://bafkreifzv53zjerzgtzanw4otohu6h3p7rjgh7fbsll2w4dlpigxk5qmbe.ipfs.dweb.link`}
                       position={{x:0,y:-160,z:0}}
                       width={width} 
                       height={width}
@@ -175,6 +183,8 @@ onChange1 = (val1) => {
                     />
                     :this.state.fileType=='dae'?
                     <DAEModel 
+                    width={width} 
+                    height={width}
                       src={`https://${this.state.cid}.ipfs.dweb.link`}
                       onLoad={()=>{
                         // ...
@@ -241,4 +251,4 @@ onChange1 = (val1) => {
   
 }
 
-export default Add;
+export default withRouter(Add);

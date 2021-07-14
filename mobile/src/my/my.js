@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom'
 
 import { inject, observer } from 'mobx-react'
 import tmpList from '../utils/demoData';
-
+import ShowImg from '../components/showImg';
 import * as fcl from "@onflow/fcl"
 
 @inject('userStore')  
@@ -91,14 +91,14 @@ class My extends React.Component {
                   <div className="item" key={key} onClick={this.goDetail.bind(this,product.typeID,product.itemID)}>
                       <div className="item-inner">
                           <div className="img">
-                              <img src={tmpList[product.typeID-1].face} />
+                          <ShowImg cid={product.metadata.cid} fileType={product.metadata.fileType} />
                           </div>
                           <div className="title">
-                            {tmpList[product.typeID-1].title}
+                            {product.metadata.title}
                           </div>
                           <div style={{marginTop:'10px'}}>
                             <div style={{float:'left',color:'#E94D5E'}}>
-                              <span style={{fontSize:'11px'}}>¥</span>  <span style={{fontSize:'16px'}}>{tmpList[product.typeID-1].price} CB</span>
+                              <span style={{fontSize:'11px'}}>¥</span>  <span style={{fontSize:'16px'}}>{product.price} CB</span>
                               <span style={{fontSize:'16px', color: 'blue'}}>{
                                 marketStore.hasInMarket(product.itemID)?" 在售":""
                               }</span>
@@ -119,14 +119,14 @@ class My extends React.Component {
                     <div className="item" key={key} onClick={this.goDetail.bind(this,product.typeID,product.itemID)}>
                         <div className="item-inner">
                             <div className="img">
-                                <img src={tmpList[product.typeID-1].face} />
+                            <ShowImg cid={product.metadata.cid} fileType={product.metadata.fileType} />
                             </div>
                             <div className="title">
-                              {tmpList[product.typeID-1].title}
+                              {product.metadata.title}
                             </div>
                             <div style={{marginTop:'10px'}}>
                               <div style={{float:'left',color:'#E94D5E'}}>
-                                <span style={{fontSize:'11px'}}>¥</span>  <span style={{fontSize:'16px'}}>{tmpList[product.typeID-1].price} CB</span>
+                                <span style={{fontSize:'11px'}}>¥</span>  <span style={{fontSize:'16px'}}>{product.price} CB</span>
                                 <span style={{fontSize:'16px', color: 'blue'}}>{
                                   marketStore.hasInMarket(product.itemID)?" 在售":""
                                 }</span>
