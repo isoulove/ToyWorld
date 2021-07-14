@@ -110,7 +110,7 @@ class MarketStore {
 
   filterItems = (items) => {
     return items.filter((item) => {
-      return item.itemID >= 19
+      return item.itemID >= 47
     })
   }
 
