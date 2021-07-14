@@ -92,7 +92,7 @@ class Detail extends React.Component {
                     </div>
                     </div>
                     <div style={{float:'right',verticalAlign:'middle',height:'100%',marginRight:'22px',marginTop:'35px'}}>
-                        <span style={{color:'#FFA71C',fontSize:'22px',fontWeight:700}}>{metadata.title}</span>&nbsp;
+                        <span style={{color:'#FFA71C',fontSize:'22px',fontWeight:700}}>{metadata.price}</span>&nbsp;
                         <span style={{lineHeight:'20px',fontWeight:500,color:'#353535'}}>CB</span>
                     </div>
                 </div>
