@@ -8,6 +8,7 @@ import { buyMarketItem } from "../flow/buy-market-item.tx"
 class MarketStore {
   // 市场集合
   @observable marketItems = []
+  @observable itemID = 0
 
   constructor() {
     makeObservable(this)
@@ -115,12 +116,33 @@ class MarketStore {
   }
 
   @action
-  fetchAccountItem = (itemID) => {
+  setItemID = (itemID) => {
+    this.itemID = itemID
+  }
+
+  @computed
+  get fetchAccountItem() {
+    if(this.marketItems.length==0) this.fetchMarketItems()
+
     const itemArr = this.marketItems.filter((item) => {
-      return item.itemID == itemID
+      return item.itemID == this.itemID
     })
     if (itemArr.length == 1) {
       return itemArr[0]
+    } else {
+      return []
+    }
+  }
+
+  @computed
+  get fetchMetadata() {
+    if(this.marketItems.length==0) this.fetchMarketItems()
+
+    const itemArr = this.marketItems.filter((item) => {
+      return item.itemID == this.itemID
+    })
+    if (itemArr.length == 1) {
+      return itemArr[0].metadata
     } else {
       return []
     }

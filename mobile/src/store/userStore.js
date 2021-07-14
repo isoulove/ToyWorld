@@ -21,6 +21,8 @@ class UserStore {
   @observable flowBalance = 0
   // 账户NFT集合
   @observable toyItems = []
+  // 当前NFT
+  @observable itemID = 0
 
   // 我购买的
   @computed
@@ -273,12 +275,33 @@ class UserStore {
   }
 
   @action
-  fetchAccountItem = (itemID) => {
+  setItemID = (itemID) => {
+    this.itemID = itemID
+  }
+
+  @computed
+  get fetchAccountItem() {
+    if(this.toyItems.length==0) this.fetchAccountItems()
+
     const itemArr = this.toyItems.filter((item) => {
-      return item.itemID == itemID
+      return item.itemID == this.itemID
     })
     if (itemArr.length == 1) {
       return itemArr[0]
+    } else {
+      return []
+    }
+  }
+
+  @computed
+  get fetchMetadata() {
+    if(this.toyItems.length==0) this.fetchAccountItems()
+
+    const itemArr = this.toyItems.filter((item) => {
+      return item.itemID == this.itemID
+    })
+    if (itemArr.length == 1) {
+      return itemArr[0].metadata
     } else {
       return []
     }

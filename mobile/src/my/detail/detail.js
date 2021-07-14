@@ -30,10 +30,9 @@ class Detail extends React.Component {
     componentDidMount(){
       // const path = this.props.location.pathname
       // const itemID = path.substring(path.lastIndexOf("/")+1)
-      const item = this.props.userStore.fetchAccountItem(this.state.itemID)
-      console.log(item,'111')
-      
-      
+      // const item = this.props.userStore.fetchAccountItem(this.state.itemID)
+      // console.log(item,'111')
+      this.props.userStore.setItemID(this.state.itemID)
     }
 
     toSell = ()=>{
@@ -44,8 +43,10 @@ class Detail extends React.Component {
     }
 
   render (){
-      const {width,type,item} = this.state
-       console.log(item,'333')
+      const {width,type} = this.state
+      //console.log(item,'333')
+      const item = this.props.userStore.fetchAccountItem
+      const metadata = this.props.userStore.fetchMetadata
     return (
       <div style={{padding:'0 0 90px 0'}}>
           <div className="top-nav" onClick={() => this.props.history.goBack()} >
@@ -91,7 +92,7 @@ class Detail extends React.Component {
                     </div>
                     </div>
                     <div style={{float:'right',verticalAlign:'middle',height:'100%',marginRight:'22px',marginTop:'35px'}}>
-                        <span style={{color:'#FFA71C',fontSize:'22px',fontWeight:700}}>{tmpList[type].price}</span>&nbsp;
+                        <span style={{color:'#FFA71C',fontSize:'22px',fontWeight:700}}>{metadata.title}</span>&nbsp;
                         <span style={{lineHeight:'20px',fontWeight:500,color:'#353535'}}>CB</span>
                     </div>
                 </div>
