@@ -72,7 +72,7 @@ toPub = ()=>{
     Toast.fail('请选择价格和数量')
     return;
   }
-  this.userStore.mintToyItems(
+  this.props.userStore.mintToyItems(
     {price,desc,cid,title,num,fileType},
     this.props.userStore.userInfo.addr
     )

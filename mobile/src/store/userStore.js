@@ -7,7 +7,8 @@ import { isAccountInitialized } from "../flow/is-account-initialized.script"
 import { initializeAccount } from "../flow/initialize-account.tx"
 
 import { fmtFlow } from "../utils/fmt-flow"
-import { storeFiles } from '../utils/IPFSUtil'
+
+import marketStore from './marketStore'
 
 import * as fcl from "@onflow/fcl"
 
@@ -109,11 +110,51 @@ class UserStore {
     var rs = getRequest('toy-items/items/' + address)
     Toast.loading('正在查询...', 0)
     rs.then(response => {
+      response.items = response.items.map(item => 
+        {
+          const metadata = JSON.parse(item.metadata)
+          return Object.assign({}, item, {price: metadata.price}, {metadata: metadata})
+        }
+      )
       this.toyItems = this.filterItems(response.items)
       Toast.hide()
     }).catch((err) => {
       Toast.fail('失败：' + err, 2)
     })
+  }
+
+  // 铸造并发布NFT到交易市场
+  mintAndSell = async (metadata, address, cb) => {
+    Toast.loading('正在铸造...', 0)
+    // 铸造NFT
+    let rs = await postRequest("toy-items/mint", {
+      recipient: address,
+      metadata: metadata,
+      typeID: Math.floor(Math.random() * (3 - 1)) + 1,
+    })
+
+    if(!rs.transaction || rs.transaction.status!==4) {
+      Toast.hide()
+      Toast.fail('发布失败！'+rs, 2)
+      return Promise.resolve(false)
+    }
+
+    // 最大ID值
+    let maxId=0
+    rs = await getRequest('toy-items/items/' + address)
+    if(rs.items) {
+      this.toyItems = this.filterItems(rs.items)
+      const ids = this.toyItems.map(item => item.itemID)
+      maxId = Math.max.apply(null, ids)
+    } else {
+      Toast.hide()
+      Toast.fail('获取NFT失败！'+rs, 2)
+      return Promise.resolve(false)
+    }
+    
+    Toast.hide()
+    // 发布到交易市场
+    return marketStore.sell(maxId, metadata.price, cb)
   }
 
   // 铸造NFT
@@ -123,57 +164,59 @@ class UserStore {
       Toast.fail('失败：请先登陆！', 2)
       return
     }
-    // NFT的元数据信息存储在FLOW链上；NFT的图像、3D模型、视频等存储在IPFS上
-    // NFT的元数据格式举例
-    // 展示：https://{cid}.ipfs.dweb.link/filename
-    // 例子：https://bafybeicvx2rnobrnxzdqdimoqiwhdptqw6osq3b6qgynt4jvj6gfv3yhb4.ipfs.dweb.link/333.txt
-    metadata = {
-      name: 'my nft',
-      description: 'my nft base on flow and ipfs',
-      files: [
-        new File(["First Line Text1"],'111.txt',{type: "text/plain"}),
-        new File(["First Line Text2"],'222.txt',{type: "text/plain"}),
-        new File(["First Line Text3"],'333.txt',{type: "text/plain"})
-      ],
-      ipfs: ''  //nft模型存储到ipfs上后，将cid回填到该属性，存储到flow链
-    }
 
-    if(metadata.files && metadata.files.length>0) {
-      Toast.loading('正在铸造...', 0)
-      storeFiles(metadata.files).then(cid => {
-        const nftMeta = Object.assign({}, metadata, {
-          files: metadata.files.map(item => {
-            const pos = item.name.lastIndexOf('.')
+    this.mintAndSell(metadata, address, cb)
+    // // NFT的元数据信息存储在FLOW链上；NFT的图像、3D模型、视频等存储在IPFS上
+    // // NFT的元数据格式举例
+    // // 展示：https://{cid}.ipfs.dweb.link/filename
+    // // 例子：https://bafybeicvx2rnobrnxzdqdimoqiwhdptqw6osq3b6qgynt4jvj6gfv3yhb4.ipfs.dweb.link/333.txt
+    // metadata = {
+    //   name: 'my nft',
+    //   description: 'my nft base on flow and ipfs',
+    //   files: [
+    //     new File(["First Line Text1"],'111.txt',{type: "text/plain"}),
+    //     new File(["First Line Text2"],'222.txt',{type: "text/plain"}),
+    //     new File(["First Line Text3"],'333.txt',{type: "text/plain"})
+    //   ],
+    //   ipfs: ''  //nft模型存储到ipfs上后，将cid回填到该属性，存储到flow链
+    // }
 
-            return {
-              name: item.name,
-              fileType: item.name.substr(pos)
-            }
-          }),
-          ipfs: cid
-        })
+    // if(metadata.files && metadata.files.length>0) {
+    //   Toast.loading('正在铸造...', 0)
+    //   storeFiles(metadata.files).then(cid => {
+    //     const nftMeta = Object.assign({}, metadata, {
+    //       files: metadata.files.map(item => {
+    //         const pos = item.name.lastIndexOf('.')
 
-        console.log(nftMeta)
-        var rs = postRequest("toy-items/mint", {
-          recipient: address,
-          metadata: nftMeta,
-          // Random typeID between 1 - 5
-          typeID: Math.floor(Math.random() * (5 - 1)) + 1,
-        })
-        rs.then((res) => {
-          Toast.hide()
-          this.fetchAccountItems(address)
-          if (cb != undefined) cb("success")
-        }).catch((err) => {
-          Toast.fail('失败：' + err, 2)
-          if (cb != undefined) cb("fail" + err)
-        })
-      }).catch((err) => {
-        Toast.fail('IPFS存储失败：' + err, 2)
-      })
-    } else {
-      Toast.fail('失败：需上传NFT模型！', 2)
-    }
+    //         return {
+    //           name: item.name,
+    //           fileType: item.name.substr(pos)
+    //         }
+    //       }),
+    //       ipfs: cid
+    //     })
+
+    //     console.log(nftMeta)
+    //     var rs = postRequest("toy-items/mint", {
+    //       recipient: address,
+    //       metadata: nftMeta,
+    //       // Random typeID between 1 - 5
+    //       typeID: Math.floor(Math.random() * (5 - 1)) + 1,
+    //     })
+    //     rs.then((res) => {
+    //       Toast.hide()
+    //       this.fetchAccountItems(address)
+    //       if (cb != undefined) cb("success")
+    //     }).catch((err) => {
+    //       Toast.fail('失败：' + err, 2)
+    //       if (cb != undefined) cb("fail" + err)
+    //     })
+    //   }).catch((err) => {
+    //     Toast.fail('IPFS存储失败：' + err, 2)
+    //   })
+    // } else {
+    //   Toast.fail('失败：需上传NFT模型！', 2)
+    // }
   }
 
   @action
@@ -237,7 +280,7 @@ class UserStore {
 
   filterItems = (items) => {
     return items.filter((item) => {
-      return item.itemID >= 19
+      return item.itemID >= 47
     })
   }
 }

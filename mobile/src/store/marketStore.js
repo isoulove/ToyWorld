@@ -19,6 +19,7 @@ class MarketStore {
   fetchMarketItems = () => {
     var rs = getRequest('market/collection')
     rs.then(response => {
+      response.items = response.items.map(item => Object.assign({}, item, {metadata: JSON.parse(item.metadata)}))
       this.marketItems = this.filterItems(response.items)
     })
   }
@@ -109,7 +110,7 @@ class MarketStore {
 
   filterItems = (items) => {
     return items.filter((item) => {
-      return item.itemID >= 19
+      return item.itemID >= 47
     })
   }
 
