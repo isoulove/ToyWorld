@@ -104,7 +104,7 @@ class Home extends React.Component {
                     </div>
                 </div> */}
                 {marketStore.priMarketItems.map((product,key) => (
-                <div className="good-box" onClick={this.goodClick.bind(this,product.typeID,product.itemID)}>
+                <div className="good-box" key={key} onClick={this.goodClick.bind(this,product.typeID,product.itemID)}>
                     <div className="home-good-img-size" style={{}}>
                       <ShowImg cid={product.metadata.cid} fileType={product.metadata.fileType} width={this.state.width} />
                       <img src={tmpList[product.typeID-1]['face']} style={{width:'100%'}} />

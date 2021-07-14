@@ -309,7 +309,7 @@ class UserStore {
 
   filterItems = (items) => {
     return items.filter((item) => {
-      return item.itemID >= 50
+      return item.itemID >= 51
     })
   }
 }
