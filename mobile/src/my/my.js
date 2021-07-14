@@ -17,6 +17,11 @@ class My extends React.Component {
     showList: this.userInfo.addr!=null,
     userInfo: this.userInfo, 
     buyNum: this.props.userStore.toyItems.length,
+    show:0,
+  }
+
+  changeShow = (e)=>{
+    this.setState({show:e})
   }
 
   componentDidMount(){
@@ -65,8 +70,8 @@ class My extends React.Component {
             </div>
 
             <div style={{padding:'30px 54px 10px 54px'}}>
-                <div style={{marginLeft:'15px',float:'left',color:'#FFA71C',fontSize:'14px',fontWeight:400,lineHeight:'22px'}}>我的购买（{userStore.toyItems.length}）</div>
-                <div style={{marginRight:'15px',float:'right',fontSize:'14px',fontWeight:400,lineHeight:'22px'}}>我发布的（0）</div>
+                <div onClick={this.changeShow.bind(this,0)} style={{marginLeft:'15px',float:'left',color:this.state.show==0?'#FFA71C':'',fontSize:'14px',fontWeight:400,lineHeight:'22px'}}>我的购买（{userStore.myBuyItems.length}）</div>
+                <div onClick={this.changeShow.bind(this,1)} style={{marginRight:'15px',float:'right',color:this.state.show==1?'#FFA71C':'',fontSize:'14px',fontWeight:400,lineHeight:'22px'}}>我发布的（{userStore.myPubItems.length}）</div>
             </div>
           </div>
           {
@@ -79,9 +84,11 @@ class My extends React.Component {
             :
             <div className="goodList">
             <div className="list">
-                  {userStore.toyItems.map((product,key) => (
+                  {
+                    this.state.show==0?
+                  userStore.myBuyItems.map((product,key) => (
                   // <div className="item" onClick={this.goDetail.bind(this,key%2==0?1:2)}>
-                  <div className="item" onClick={this.goDetail.bind(this,product.typeID,product.itemID)}>
+                  <div className="item" key={key} onClick={this.goDetail.bind(this,product.typeID,product.itemID)}>
                       <div className="item-inner">
                           <div className="img">
                               <img src={tmpList[product.typeID-1].face} />
@@ -103,30 +110,38 @@ class My extends React.Component {
                               <div style={{marginLeft:'2px',fontSize:'10px'}}>@{tmpList[product.typeID-1].author}</div>
                             </div>
                           </div>
-                      </div>
-                  </div>
-                  ))}
-                  {/* <div className="item" onClick={this.goDetail}>
-                      <div className="item-inner">
-                          <div className="img">
-                              <img src="assets/images/test.jpg" />
-                          </div>
-                          <div className="title">
-                            摩尔庄园：吉比特炒行星星球潮玩
-                          </div>
-                          <div style={{marginTop:'10px'}}>
-                            <div style={{float:'left',color:'#E94D5E'}}>
-                              <span style={{fontSize:'11px'}}>¥</span>  <span style={{fontSize:'16px'}}>100 CB</span>
+                        </div>
+                    </div>
+                  ))
+                  :
+                  userStore.myPubItems.map((product,key) => (
+                    // <div className="item" onClick={this.goDetail.bind(this,key%2==0?1:2)}>
+                    <div className="item" key={key} onClick={this.goDetail.bind(this,product.typeID,product.itemID)}>
+                        <div className="item-inner">
+                            <div className="img">
+                                <img src={tmpList[product.typeID-1].face} />
                             </div>
-                            <div style={{display:'flex',alignItems:'center',float:'right'}}>
-                              <div className="avator-box1">
-                                <img src="assets/images/ava.jpg" style={{width:'20px'}} />
+                            <div className="title">
+                              {tmpList[product.typeID-1].title}
+                            </div>
+                            <div style={{marginTop:'10px'}}>
+                              <div style={{float:'left',color:'#E94D5E'}}>
+                                <span style={{fontSize:'11px'}}>¥</span>  <span style={{fontSize:'16px'}}>{tmpList[product.typeID-1].price} CB</span>
+                                <span style={{fontSize:'16px', color: 'blue'}}>{
+                                  marketStore.hasInMarket(product.itemID)?" 在售":""
+                                }</span>
                               </div>
-                              <div style={{marginLeft:'2px',fontSize:'10px'}}>@7onder</div>
+                              <div style={{display:'flex',alignItems:'center',float:'right'}}>
+                                <div className="avator-box1">
+                                  <img src="assets/images/ava.jpg" style={{width:'20px'}} />
+                                </div>
+                                <div style={{marginLeft:'2px',fontSize:'10px'}}>@{tmpList[product.typeID-1].author}</div>
+                              </div>
                             </div>
                           </div>
                       </div>
-                  </div> */}
+                  ))
+                  }
                   <div className="clear"></div>
               </div>
           </div>
