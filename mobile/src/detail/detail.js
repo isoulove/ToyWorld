@@ -55,6 +55,7 @@ class Detail extends React.Component {
       const itemID=this.state.itemID
       //tmpList[type].itemID
       const item = this.props.marketStore.fetchAccountItem(itemID)
+      console.log(item,'4545')
       this.setState({item: item})
     }
 
@@ -106,6 +107,11 @@ class Detail extends React.Component {
       this.setState({amount,selectArr})
     }
 
+    toFix = (price)=>{
+      console.log(price)
+      return price.toFixed(2)
+    }
+
     checkPay = ()=>{
        const {amount} = this.state
        if(amount<=0){
@@ -124,7 +130,7 @@ class Detail extends React.Component {
 
    
   render (){
-      const {width,type} = this.state
+      const {width,type,item} = this.state
     return (
       <div style={{padding:'0 0 90px 0'}}>
           <div className="top-nav" onClick={() => this.props.history.goBack()} >
@@ -160,7 +166,7 @@ class Detail extends React.Component {
                     
                 </div>
                 <div className="bkc-fff" style={{height:'85px',borderBottom:'1px solid #C4C4C4'}}>
-                    <div style={{float:'left',width:'70%',marginTop:'10px',paddingLeft:'16px'}}>
+                    <div style={{float:'left',width:'50%',marginTop:'10px',paddingLeft:'16px'}}>
                     <div style={{fontSize:'20px',fontWeight:500,lineHeight:'21px'}}>{tmpList[type].title}</div>
                     <div style={{display:'flex',marginTop:'10px',alignItems:'center'}}>
                         <div className="avator-box">
@@ -170,27 +176,15 @@ class Detail extends React.Component {
                     </div>
                     </div>
                     <div style={{float:'right',verticalAlign:'middle',height:'100%',marginRight:'22px',marginTop:'35px'}}>
-                        <span style={{color:'#FFA71C',fontSize:'22px',fontWeight:700}}>{tmpList[type].price}</span>&nbsp;
+                        <span style={{color:'#FFA71C',fontSize:'20px',fontWeight:700}}>{item.price}</span>&nbsp;
                         <span style={{lineHeight:'20px',fontWeight:500,color:'#353535'}}>CB</span>
                     </div>
                 </div>
 
                 <div className="bkc-fff" style={{minHeight:'100px',padding:'30px 16px 20px 16px'}}>
-                  {
-                    tmpList[type].desc.map((v,k)=>(
-                      <div>
-                        <div className="title-intro">{v.title}</div>
-                        {
-                          v.content.map(v=>(
-                            <div className="title-desc">
-                              {v}
-                            </div>
-                          ))
-                        }
-                      </div>
-                    ))
-                  }
-                    
+                    <div className="title-desc">
+                     {/* {item.metadata} */}
+                   </div>
                 </div>
             </div>
           {/* 这是首页: 数字{appStore.num}
