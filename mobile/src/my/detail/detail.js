@@ -33,7 +33,7 @@ class Detail extends React.Component {
     }
 
     toSell = ()=>{
-      const item=this.state.item
+      const item=this.props.userStore.fetchAccountItem
       const itemID=this.state.itemID
       //tmpList[type].itemID
       this.props.marketStore.sell(itemID, item.price)

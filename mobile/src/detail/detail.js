@@ -55,8 +55,7 @@ class Detail extends React.Component {
 
     buyOk = ()=>{
       // 调取接口购买
-
-      var buyItem=this.state.item
+      var buyItem=this.props.marketStore.fetchAccountItem
       const _this = this
       const userInfo = this.props.userStore.userInfo
      
