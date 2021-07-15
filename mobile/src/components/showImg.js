@@ -5,7 +5,6 @@ import {DAEModel,JSONModel,OBJModel,Tick,MTLModel,GLTFModel,AmbientLight,Directi
 class ShowImg extends React.Component {
   constructor(props){
     super();
-    console.log(props)
     this.state = {
       cid:props.cid,
       fileType:props.fileType,
@@ -35,6 +34,7 @@ class ShowImg extends React.Component {
                     <GLTFModel
                       src={`https://${this.state.cid}.ipfs.dweb.link`}
                       position={{x:0,y:-160,z:0}}
+                      scale={{x:.4,y:.4,z:.4}}
                       width={this.state.width} 
                       height={this.state.width} 
                       onLoad={()=>{
@@ -50,18 +50,21 @@ class ShowImg extends React.Component {
                     src={`https://${this.state.cid}.ipfs.dweb.link`} 
                     width={this.state.width} 
                     height={this.state.width} 
+                    scale={{x:.4,y:.4,z:.4}}
                      />
                     :this.state.fileType=='obj'?
                     <OBJModel src={`https://${this.state.cid}.ipfs.dweb.link`}
                      texPath=""
                      width={this.state.width} 
                      height={this.state.width} 
+                     scale={{x:.4,y:.4,z:.4}}
                      />
                     :this.state.fileType=='mtl'?
                     <MTLModel 
                         enableZoom = {false}
                         position={{x:0,y:-100,z:0}}
                         rotation={this.state.rotation}
+                        scale={{x:.4,y:.4,z:.4}}
                         width={this.state.width} 
                         height={this.state.width} 
                         // texPath="./src/lib/model/"
@@ -72,15 +75,19 @@ class ShowImg extends React.Component {
                     <DAEModel 
                     width={this.state.width} 
                       height={this.state.width} 
+                      scale={{x:.4,y:.4,z:.4}}
                       src={`https://${this.state.cid}.ipfs.dweb.link`}
                       onLoad={()=>{
                         // ...
                       }}
                     >
-                      <DirectionLight color={0xff00ff}/>
+                       <DirectionLight color={0xff00ff} />
+                      <DirectionLight color={0xff00ff} />
+                      {/* <DirectionLight color={0xff00ff}/> */}
                     </DAEModel>
-                    :<img src={`https://${this.state.cid}.ipfs.dweb.link`} style={{width:'100%'}} />
-
+                    :this.state.cid?
+                    <img src={`https://${this.state.cid}.ipfs.dweb.link`} style={{width:'100%'}} />
+                    :<img src='' style={{width:'100%'}} />
                   }
       </div>
     )

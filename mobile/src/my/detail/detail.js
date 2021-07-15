@@ -13,14 +13,11 @@ class Detail extends React.Component {
 
     constructor(props){
       super()
-      let type = props.match.params.type || 0
       let itemID = props.match.params.itemID || 0
-      type = parseInt(type)-1
       this.state = {
         buy:false,
         modal1:false,
         modal2:false,
-        type:type,
         itemID:itemID,
         width: window.innerWidth*1,
         item: {}
@@ -36,14 +33,14 @@ class Detail extends React.Component {
     }
 
     toSell = ()=>{
-      // const type=this.state.type
+      const item=this.state.item
       const itemID=this.state.itemID
       //tmpList[type].itemID
-      this.props.marketStore.sell(itemID, "100.0")
+      this.props.marketStore.sell(itemID, item.price)
     }
 
   render (){
-      const {width,type} = this.state
+      const {width} = this.state
       //console.log(item,'333')
       const item = this.props.userStore.fetchAccountItem
       const metadata = this.props.userStore.fetchMetadata
@@ -61,58 +58,29 @@ class Detail extends React.Component {
             </NavBar> */}
             <div className="detail-box" >
                 <div style={{minHeight:'239px'}}>
-                  {
-                    this.state.type==1?
-                    <GLTFModel
-                      src="/assets/scene.gltf"
-                      position={{x:0,y:-160,z:0}}
-                      width={width} 
-                      height={width}
-                      onLoad={()=>{
-                        this.props.onLoaded()
-                      }}
-                    >
-                      <AmbientLight color={0xffffff}/>
-                      <DirectionLight color={0xffffff} position={{x:100,y:200,z:100}}/>
-                      <DirectionLight color={0xff00ff} position={{x:-100,y:100,z:-100}}/>
-                    </GLTFModel>
-                    :<img src={tmpList[type].img} style={{width:'100%'}} />
-
-                  }
-                    
+                <ShowImg cid={metadata.cid} fileType={metadata.fileType} width={width} />
                 </div>
                 <div className="bkc-fff" style={{height:'85px',borderBottom:'1px solid #C4C4C4'}}>
                     <div style={{float:'left',width:'70%',marginTop:'10px',paddingLeft:'16px'}}>
-                    <div style={{fontSize:'20px',fontWeight:500,lineHeight:'21px'}}>{tmpList[type].title}</div>
+                    <div style={{fontSize:'20px',fontWeight:500,lineHeight:'21px'}}>{metadata.title}</div>
                     <div style={{display:'flex',marginTop:'10px',alignItems:'center'}}>
                         <div className="avator-box">
                         <img src="/assets/images/ava.jpg" style={{width:'32px'}} />
                         </div>
-                        <div style={{marginLeft:'8px'}}>@{tmpList[type].author}</div>
+                        <div style={{marginLeft:'8px'}}>@{item.author}</div>
                     </div>
                     </div>
                     <div style={{float:'right',verticalAlign:'middle',height:'100%',marginRight:'22px',marginTop:'35px'}}>
-                        <span style={{color:'#FFA71C',fontSize:'22px',fontWeight:700}}>{metadata.price}</span>&nbsp;
+                        <span style={{color:'#FFA71C',fontSize:'22px',fontWeight:700}}>{item.price}</span>&nbsp;
                         <span style={{lineHeight:'20px',fontWeight:500,color:'#353535'}}>CB</span>
                     </div>
                 </div>
 
                 <div className="bkc-fff" style={{minHeight:'100px',padding:'30px 16px 20px 16px'}}>
-                    {
-                    tmpList[type].desc.map((v,k)=>(
-                      <div>
-                        <div className="title-intro">{v.title}</div>
-                        {
-                          v.content.map(v=>(
-                            <div className="title-desc">
-                              {v}
-                            </div>
-                          ))
-                        }
+                <div className="title-intro">介绍</div>
+                      <div className="title-desc">
+                        {metadata.desc}
                       </div>
-                    ))
-                  }
-                    
                 </div>
             </div>
           {/* 这是首页: 数字{appStore.num}

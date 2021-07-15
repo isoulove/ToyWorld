@@ -2,8 +2,9 @@ import React from 'react'
 import {WhiteSpace,Icon,Modal,Toast,Tag } from 'antd-mobile';
 import {GLTFModel,AmbientLight,DirectionLight} from 'react-3d-viewer'
 // import {withRouter } from 'react-router-dom'
-
-import { inject, observer } from 'mobx-react'
+import {observable} from 'mobx'
+import { inject, observer} from 'mobx-react'
+import ShowImg from '../components/showImg';
 import './detail.css';
 import tmpList from '../utils/demoData';
 
@@ -14,19 +15,17 @@ class Detail extends React.Component {
 
     constructor(props){
       super()
-      let type = props.match.params.type || 1
       let itemID = props.match.params.itemID || 0
-      type = parseInt(type)-1
       this.state = {
         buy:false,
         modal1:false,
         modal2:false,
-        type:type,
         itemID:itemID,
         selectArr:[{amount:100,selected:false},{amount:200,selected:true},{amount:300,selected:false}],
         amount:200,
         width: window.innerWidth*1,
-        item:{}
+        item:{},
+        matdata:{}
       }
     }
    
@@ -51,12 +50,7 @@ class Detail extends React.Component {
     }
 
     componentDidMount(){
-      const type=this.state.type
-      const itemID=this.state.itemID
-      //tmpList[type].itemID
-      const item = this.props.marketStore.fetchAccountItem(itemID)
-      console.log(item,'4545')
-      this.setState({item: item})
+      this.props.marketStore.setItemID(this.state.itemID)
     }
 
     buyOk = ()=>{
@@ -107,11 +101,6 @@ class Detail extends React.Component {
       this.setState({amount,selectArr})
     }
 
-    toFix = (price)=>{
-      console.log(price)
-      return price.toFixed(2)
-    }
-
     checkPay = ()=>{
        const {amount} = this.state
        if(amount<=0){
@@ -130,7 +119,10 @@ class Detail extends React.Component {
 
    
   render (){
-      const {width,type,item} = this.state
+      const {width} = this.state
+      const item = this.props.marketStore.fetchAccountItem
+      const metadata = this.props.marketStore.fetchMetadata
+      console.log(item,metadata)
     return (
       <div style={{padding:'0 0 90px 0'}}>
           <div className="top-nav" onClick={() => this.props.history.goBack()} >
@@ -145,34 +137,16 @@ class Detail extends React.Component {
             </NavBar> */}
             <div className="detail-box" >
                 <div style={{minHeight:'239px'}}>
-                  {
-                    this.state.type==1?
-                    <GLTFModel
-                      src="/assets/scene.gltf"
-                      position={{x:0,y:-160,z:0}}
-                      width={width} 
-                      height={width}
-                      onLoad={()=>{
-                        this.props.onLoaded()
-                      }}
-                    >
-                      <AmbientLight color={0xffffff}/>
-                      <DirectionLight color={0xffffff} position={{x:100,y:200,z:100}}/>
-                      <DirectionLight color={0xff00ff} position={{x:-100,y:100,z:-100}}/>
-                    </GLTFModel>
-                    :<img src={tmpList[type].img} style={{width:'100%'}} />
-
-                  }
-                    
+                <ShowImg cid={metadata.cid} fileType={metadata.fileType} width={width} /> 
                 </div>
                 <div className="bkc-fff" style={{height:'85px',borderBottom:'1px solid #C4C4C4'}}>
                     <div style={{float:'left',width:'50%',marginTop:'10px',paddingLeft:'16px'}}>
-                    <div style={{fontSize:'20px',fontWeight:500,lineHeight:'21px'}}>{tmpList[type].title}</div>
+                    <div style={{fontSize:'20px',fontWeight:500,lineHeight:'21px'}}>{metadata.title}</div>
                     <div style={{display:'flex',marginTop:'10px',alignItems:'center'}}>
                         <div className="avator-box">
                         <img src="/assets/images/ava.jpg" style={{width:'32px'}} />
                         </div>
-                        <div style={{marginLeft:'8px'}}>@{tmpList[type].author}</div>
+                        <div style={{marginLeft:'8px'}}>@{item.author}</div>
                     </div>
                     </div>
                     <div style={{float:'right',verticalAlign:'middle',height:'100%',marginRight:'22px',marginTop:'35px'}}>
@@ -182,9 +156,10 @@ class Detail extends React.Component {
                 </div>
 
                 <div className="bkc-fff" style={{minHeight:'100px',padding:'30px 16px 20px 16px'}}>
-                    <div className="title-desc">
-                     {/* {item.metadata} */}
-                   </div>
+                <div className="title-intro">介绍</div>
+                      <div className="title-desc">
+                        {metadata.desc}
+                      </div>
                 </div>
             </div>
           {/* 这是首页: 数字{appStore.num}
@@ -208,8 +183,8 @@ class Detail extends React.Component {
         //   afterClose={() => { alert('afterClose'); }}
         >
           <div style={{ minHeight: 100}}>
-                <div className="mt10">价格：{tmpList[type].price}CB</div>
-                <div className="mt10">潮玩名称：{tmpList[type].title}</div>
+                <div className="mt10">价格：{item.price}CB</div>
+                <div className="mt10">潮玩名称：{metadata.title}</div>
                 <div className="mt10">数量：1</div>
                 <div style={{marginTop:'32px'}}>
                    <div onClick={this.onClose} className="checkBtn" style={{float:'left'}}>取消</div>
